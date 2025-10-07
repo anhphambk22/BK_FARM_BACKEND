@@ -1,4 +1,4 @@
-import { MessageCircle, History, CheckCircle, Settings } from 'lucide-react';
+import { Home, MessageCircle, History, CheckCircle, Settings } from 'lucide-react';
 
 interface MenuItemProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -58,8 +58,13 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
       <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
 
       <div className="relative z-10">
-        <div className="text-center mb-12 p-4 rounded-2xl
-                        bg-white/10 backdrop-blur-md shadow-lg">
+        {/* Logo / Header */}
+        <div
+          onClick={() => onNavigate('dashboard')}
+          className="text-center mb-12 p-4 rounded-2xl
+                      bg-white/10 backdrop-blur-md shadow-lg cursor-pointer
+                      transition-transform hover:scale-105"
+        >
           <div className="text-sm text-orange-200 mb-2 font-medium">
             {new Date().toLocaleDateString('vi-VN')}
           </div>
@@ -72,34 +77,44 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
           <div className="text-yellow-200 text-xs">Vì một mùa vụ năng suất</div>
         </div>
 
+        {/* Navigation */}
         <nav className="space-y-3 flex-1">
+          {/* 🔹 Nút mới: Màn hình chính */}
+          <MenuItem
+            icon={Home}
+            text="1. Màn hình chính"
+            active={activePage === 'dashboard'}
+            onClick={() => onNavigate('dashboard')}
+          />
+
           <MenuItem
             icon={MessageCircle}
-            text="1. Tư vấn"
+            text="2. Tư vấn"
             active={activePage === 'advice'}
             onClick={() => onNavigate('advice')}
           />
           <MenuItem
             icon={History}
-            text="2. Lịch sử cây trồng"
+            text="3. Lịch sử cây trồng"
             active={activePage === 'history'}
             onClick={() => onNavigate('history')}
           />
           <MenuItem
             icon={CheckCircle}
-            text="3. Xem tình trạng chuẩn"
+            text="4. Xem tình trạng chuẩn"
             active={activePage === 'standards'}
             onClick={() => onNavigate('standards')}
           />
           <MenuItem
             icon={Settings}
-            text="4. Cài đặt"
+            text="5. Cài đặt"
             active={activePage === 'settings'}
             onClick={() => onNavigate('settings')}
           />
         </nav>
       </div>
 
+      {/* Hiệu ứng nền động */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-4 w-2 h-2 bg-orange-400
                         rounded-full animate-pulse opacity-40"></div>
