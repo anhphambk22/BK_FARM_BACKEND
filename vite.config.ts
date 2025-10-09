@@ -8,6 +8,7 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
+    host: true, // allow access from LAN (phones/tablets)
     proxy: {
       // forward any /api requests to backend on localhost:3000 during dev
       '/api': {
