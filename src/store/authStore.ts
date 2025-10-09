@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 
+// Align with backend user payload { id, phone }
 interface User {
-  username: string;
+  id?: string;
+  phone?: string;
+  username?: string; // keep optional for legacy uses
   role?: string;
 }
 

@@ -1,30 +1,35 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
-import { useAuthStore } from '../store/authStore';
+import { register } from '../services/api';
 
-export default function Login() {
-  const { login: setAuth } = useAuthStore();
-  const navigate = useNavigate();
-  const [identifier, setIdentifier] = useState('');
+export default function Register() {
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  // No auto-login: we won't use auth store here
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-    const data = await login(identifier, password);
-    setAuth(data.token, data.user);
-    navigate('/');
+      await register(phone, password);
+      // Không auto-login nữa: chuyển về trang đăng nhập
+      setSuccess('Đăng ký thành công. Vui lòng đăng nhập.');
+      setTimeout(() => navigate('/login'), 900);
     } catch (err: unknown) {
+        console.error('Register error', err);
+      let msg = 'Đăng ký thất bại';
       if (typeof err === 'object' && err !== null && 'message' in err) {
-        setError((err as { message?: string }).message || 'Đăng nhập thất bại');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        msg = (err as any).message || msg;
       } else {
-        setError('Đăng nhập thất bại');
+        try { msg = JSON.stringify(err) || msg; } catch { /* ignore stringify errors */ }
       }
+        setError(msg);
     } finally {
       setLoading(false);
     }
@@ -33,15 +38,15 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-emerald-800 to-teal-600">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleSubmit}
         className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-lg w-96"
       >
-        <h1 className="text-3xl font-bold text-center text-white mb-6">Đăng nhập BK Farmers</h1>
+        <h1 className="text-3xl font-bold text-center text-white mb-6">Đăng ký BK Farmers</h1>
         <input
-          type="text"
-          placeholder="Số điện thoại"
-          value={identifier}
-          onChange={(e) => setIdentifier(e.target.value)}
+          type="tel"
+          placeholder="Số điện thoại (ví dụ: 0849123456)"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           className="w-full p-3 mb-4 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none"
         />
         <input
@@ -51,20 +56,15 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-3 mb-4 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none"
         />
+        {success && <p className="text-green-300 mb-2 text-sm">{success}</p>}
         {error && <p className="text-red-300 mb-2 text-sm">{error}</p>}
         <button
           type="submit"
           disabled={loading}
           className="w-full py-3 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-semibold rounded-lg hover:opacity-90 transition"
         >
-          {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+          {loading ? 'Đang đăng ký...' : 'Đăng ký'}
         </button>
-        <div className="mt-4 text-center text-sm text-white/80">
-          Chưa có tài khoản?{' '}
-          <button type="button" onClick={() => navigate('/register')} className="underline font-semibold">
-            Đăng ký
-          </button>
-        </div>
       </form>
     </div>
   );

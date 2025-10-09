@@ -22,7 +22,7 @@ const StandardItem = ({ label, current, standard, unit, percentage, status }: St
       iconColor: 'text-orange-500',
       barColor: 'from-orange-400 to-yellow-500',
       bgColor: 'from-orange-50 to-yellow-50'
-    }
+    } 
   };
 
   const config = statusConfig[status];

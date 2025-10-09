@@ -1,17 +1,24 @@
-import { User, MapPin, Leaf, CreditCard, Bell, Globe } from 'lucide-react';
+import { User, MapPin, CreditCard, Bell, Globe, Type } from 'lucide-react';
+import { useAppStore } from '../store/appStore';
+import { useAuthStore } from '../store/authStore';
+import { useNavigate } from 'react-router-dom';
 
 export default function Settings() {
+  const { fontSize, setFontSize } = useAppStore();
+  const { logout } = useAuthStore();
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
+      {/* ===== Header ===== */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-600 to-slate-800 bg-clip-text text-transparent mb-2">
           Cài đặt
         </h1>
-        <p className="text-slate-600">
-          Quản lý tài khoản và tùy chỉnh hệ thống
-        </p>
+        <p className="text-slate-600">Quản lý tài khoản và tùy chỉnh hệ thống</p>
       </div>
 
+      {/* ===== 1. Thông tin tài khoản ===== */}
       <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
         <div className="flex items-center mb-6">
           <User className="w-6 h-6 text-emerald-600 mr-3" />
@@ -45,6 +52,7 @@ export default function Settings() {
         </div>
       </div>
 
+      {/* ===== 2. Thông tin trang trại ===== */}
       <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
         <div className="flex items-center mb-6">
           <MapPin className="w-6 h-6 text-blue-600 mr-3" />
@@ -90,6 +98,7 @@ export default function Settings() {
         </div>
       </div>
 
+      {/* ===== 3. Gói đăng ký ===== */}
       <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl shadow-xl p-6 border border-purple-200">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
@@ -119,45 +128,65 @@ export default function Settings() {
         </div>
       </div>
 
+      {/* ===== 4. Cảnh báo ===== */}
       <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
         <div className="flex items-center mb-6">
           <Bell className="w-6 h-6 text-orange-600 mr-3" />
-          <h2 className="text-2xl font-bold text-slate-800">Thông báo</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Cảnh báo</h2>
         </div>
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors">
             <div>
-              <div className="font-semibold text-slate-800">Cảnh báo qua Email</div>
-              <div className="text-sm text-slate-600">Nhận thông báo khi có bất thường</div>
+              <div className="font-semibold text-slate-800">Cảnh báo qua Zalo</div>
+              <div className="text-sm text-slate-600">Nhận thông báo qua Zalo</div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full 
+                              peer peer-checked:after:translate-x-full peer-checked:after:border-white
+                              after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                              after:bg-white after:border-gray-300 after:border after:rounded-full 
+                              after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
             </label>
           </div>
           <div className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors">
             <div>
-              <div className="font-semibold text-slate-800">Thông báo đẩy</div>
-              <div className="text-sm text-slate-600">Nhận thông báo trên thiết bị</div>
+              <div className="font-semibold text-slate-800">Cảnh báo qua điện thoại</div>
+              <div className="text-sm text-slate-600">Gọi/SMS khi vượt ngưỡng</div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-            </label>
-          </div>
-          <div className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors">
-            <div>
-              <div className="font-semibold text-slate-800">Báo cáo tuần</div>
-              <div className="text-sm text-slate-600">Nhận báo cáo tổng hợp hàng tuần</div>
-            </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full 
+                              peer peer-checked:after:translate-x-full peer-checked:after:border-white
+                              after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                              after:bg-white after:border-gray-300 after:border after:rounded-full 
+                              after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
             </label>
           </div>
         </div>
       </div>
 
+      {/* ===== 5. Giao diện (Cỡ chữ) ===== */}
+      <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+        <div className="flex items-center mb-6">
+          <Type className="w-6 h-6 text-indigo-600 mr-3" />
+          <h2 className="text-2xl font-bold text-slate-800">Hiển thị</h2>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Cỡ chữ</label>
+          <select
+            value={fontSize}
+            onChange={(e) => setFontSize(e.target.value as 'md' | 'lg' | 'xl')}
+            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none"
+          >
+            <option value="md">Nhỏ</option>
+            <option value="lg">Trung bình</option>
+            <option value="xl">Lớn</option>
+          </select>
+        </div>
+      </div>
+
+      {/* ===== 6. Ngôn ngữ & Vùng ===== */}
       <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
         <div className="flex items-center mb-6">
           <Globe className="w-6 h-6 text-cyan-600 mr-3" />
@@ -183,12 +212,23 @@ export default function Settings() {
         </div>
       </div>
 
+      {/* ===== Buttons ===== */}
       <div className="flex gap-4">
         <button className="flex-1 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-bold text-lg hover:from-emerald-600 hover:to-teal-600 transition-all transform hover:scale-105 shadow-lg">
           Lưu thay đổi
         </button>
         <button className="px-8 py-4 bg-gray-100 text-slate-700 rounded-xl font-bold text-lg hover:bg-gray-200 transition-all">
           Hủy
+        </button>
+        <button
+          onClick={() => {
+            logout();
+            navigate('/login', { replace: true });
+          }}
+          className="ml-auto px-8 py-4 bg-red-100 text-red-700 rounded-xl font-bold text-lg hover:bg-red-200 transition-all"
+          title="Đăng xuất khỏi tài khoản"
+        >
+          Đăng xuất
         </button>
       </div>
     </div>

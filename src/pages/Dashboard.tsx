@@ -55,21 +55,21 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <GaugeCard
             title="Nhiệt độ"
-            value={sensorData.airTemperature}
+            value={Number(sensorData.airTemperature.toFixed(1))}
             unit="°C"
             status={getStatus(sensorData.airTemperature, 18, 25)}
             percentage={getPercentage(sensorData.airTemperature, 10, 40)}
           />
           <GaugeCard
             title="Độ ẩm"
-            value={sensorData.airHumidity}
+            value={Number(sensorData.airHumidity.toFixed(1))}
             unit="%"
             status={getStatus(sensorData.airHumidity, 60, 80)}
             percentage={getPercentage(sensorData.airHumidity, 30, 95)}
           />
           <GaugeCard
             title="Ánh sáng"
-            value={sensorData.light}
+            value={Number(sensorData.light.toFixed(1))}
             unit="lux"
             status={getStatus(sensorData.light, 500, 1000)}
             percentage={getPercentage(sensorData.light, 200, 2000)}
@@ -81,42 +81,42 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <GaugeCard
             title="Nhiệt độ đất"
-            value={sensorData.soilTemperature}
+            value={Number(sensorData.soilTemperature.toFixed(1))}
             unit="°C"
             status={getStatus(sensorData.soilTemperature, 20, 28)}
             percentage={getPercentage(sensorData.soilTemperature, 15, 35)}
           />
           <GaugeCard
             title="Độ ẩm đất"
-            value={sensorData.soilMoisture}
+            value={Number(sensorData.soilMoisture.toFixed(1))}
             unit="%"
             status={getStatus(sensorData.soilMoisture, 60, 80)}
             percentage={getPercentage(sensorData.soilMoisture, 20, 90)}
           />
           <GaugeCard
             title="pH đất"
-            value={sensorData.soilPH}
+            value={Number(sensorData.soilPH.toFixed(1))}
             unit="pH"
             status={getStatus(sensorData.soilPH, 5.5, 6.5)}
             percentage={getPercentage(sensorData.soilPH, 4.0, 8.0)}
           />
           <GaugeCard
             title="Nitơ (N)"
-            value={sensorData.nitrogen}
+            value={Number(sensorData.nitrogen.toFixed(1))}
             unit="ppm"
             status={getStatus(sensorData.nitrogen, 30, 60)}
             percentage={getPercentage(sensorData.nitrogen, 10, 100)}
           />
           <GaugeCard
             title="Phốt pho (P)"
-            value={sensorData.phosphorus}
+            value={Number(sensorData.phosphorus.toFixed(1))}
             unit="ppm"
             status={getStatus(sensorData.phosphorus, 15, 35)}
             percentage={getPercentage(sensorData.phosphorus, 5, 50)}
           />
           <GaugeCard
             title="Kali (K)"
-            value={sensorData.potassium}
+            value={Number(sensorData.potassium.toFixed(1))}
             unit="ppm"
             status={getStatus(sensorData.potassium, 20, 40)}
             percentage={getPercentage(sensorData.potassium, 10, 60)}
