@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "npm run build && cross-env PORT=3000 node bkfarmers-backend/src/index.js",
+    "serve": "npm run build && npm --prefix bkfarmers-backend install && cross-env PORT=3000 node bkfarmers-backend/src/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "postinstall": "npm --prefix bkfarmers-backend install"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
