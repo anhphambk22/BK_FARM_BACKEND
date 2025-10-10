@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "serve": "npm run build && cross-env PORT=3000 node bkfarmers-backend/src/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
@@ -20,6 +21,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@eslint/js": "^9.9.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",

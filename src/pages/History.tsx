@@ -9,7 +9,7 @@ import {
 type TimeRange = '1d' | '7d' | '30d' | '365d';
 
 interface RawData {
-  date: string;
+  ts: number; // timestamp for X-axis
   airTemp: number;
   airHumidity: number;
   light: number;
@@ -19,7 +19,7 @@ interface RawData {
 }
 
 interface DisplayData {
-  date: string;
+  ts: number; // timestamp for X-axis
   airTemp: number;
   airHumidity: number;
   light: number;
@@ -37,14 +37,63 @@ interface Metric {
 
 // Không còn chuẩn hoá/ làm tròn: hiển thị giá trị gốc
 
-// Tạo dữ liệu mô phỏng
-const generateHistoricalData = (days: number): RawData[] => {
+// Helpers định dạng thời gian theo khoảng chọn
+const fmtHHmm = (d: Date) => d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+const fmtDDMM = (d: Date) => d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+const fmtMMYYYY = (d: Date) => d.toLocaleDateString('vi-VN', { month: '2-digit', year: 'numeric' });
+
+// Tạo dữ liệu mô phỏng theo khoảng thời gian
+const generateHistoricalData = (range: TimeRange): RawData[] => {
   const result: RawData[] = [];
   const now = Date.now();
-  for (let i = days - 1; i >= 0; i--) {
-    const date = new Date(now - i * 24 * 60 * 60 * 1000);
+  const HOUR = 60 * 60 * 1000;
+  const DAY = 24 * HOUR;
+
+  if (range === '1d') {
+    // 24 mốc theo giờ
+    const start = now - 23 * HOUR;
+    for (let i = 0; i < 24; i++) {
+      const ts = start + i * HOUR;
+      result.push({
+        ts,
+        airTemp: 20 + Math.random() * 8,
+        airHumidity: 60 + Math.random() * 20,
+        light: 600 + Math.random() * 400,
+        soilTemp: 18 + Math.random() * 10,
+        soilMoisture: 55 + Math.random() * 25,
+        soilPH: 5.5 + Math.random() * 1.5,
+      });
+    }
+    return result;
+  }
+
+  if (range === '7d' || range === '30d') {
+    const days = range === '7d' ? 7 : 30;
+    for (let i = days - 1; i >= 0; i--) {
+      const ts = now - i * DAY;
+      result.push({
+        ts,
+        airTemp: 20 + Math.random() * 8,
+        airHumidity: 60 + Math.random() * 20,
+        light: 600 + Math.random() * 400,
+        soilTemp: 18 + Math.random() * 10,
+        soilMoisture: 55 + Math.random() * 25,
+        soilPH: 5.5 + Math.random() * 1.5,
+      });
+    }
+    return result;
+  }
+
+  // 365d: dùng 12 mốc theo tháng để dễ đọc
+  const date = new Date();
+  date.setHours(12, 0, 0, 0);
+  date.setDate(1);
+  // lùi 11 tháng để có 12 mốc (từ 11 tháng trước đến tháng hiện tại)
+  date.setMonth(date.getMonth() - 11);
+  for (let i = 0; i < 12; i++) {
+    const ts = date.getTime();
     result.push({
-      date: date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
+      ts,
       airTemp: 20 + Math.random() * 8,
       airHumidity: 60 + Math.random() * 20,
       light: 600 + Math.random() * 400,
@@ -52,6 +101,7 @@ const generateHistoricalData = (days: number): RawData[] => {
       soilMoisture: 55 + Math.random() * 25,
       soilPH: 5.5 + Math.random() * 1.5,
     });
+    date.setMonth(date.getMonth() + 1);
   }
   return result;
 };
@@ -66,19 +116,14 @@ export default function History() {
     'airHumidity',
   ]);
 
-  const daysMap = useMemo<Record<TimeRange, number>>(
-    () => ({ '1d': 1, '7d': 7, '30d': 30, '365d': 365 }),
-    []
-  );
-
-  // Dữ liệu gốc
-  const rawData = useMemo(() => generateHistoricalData(daysMap[timeRange]), [timeRange, daysMap]);
+  // Dữ liệu gốc theo khoảng thời gian
+  const rawData = useMemo(() => generateHistoricalData(timeRange), [timeRange]);
 
   // ✅ Dữ liệu hiển thị (giá trị gốc, không chuẩn hoá)
   const displayData: DisplayData[] = useMemo(
     () =>
       rawData.map((d) => ({
-        date: d.date,
+        ts: d.ts,
         airTemp: d.airTemp,
         airHumidity: d.airHumidity,
         light: d.light,
@@ -169,7 +214,8 @@ export default function History() {
         {/* Biểu đồ */}
         <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-2xl p-6 border border-gray-200">
           <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={displayData}>
+            {/* key to remount chart on range change, ensuring full re-computation */}
+            <LineChart data={displayData} key={timeRange}>
               <defs>
                 {metrics.map((m) => (
                   <linearGradient key={m.key} id={`grad-${m.key}`} x1="0" y1="0" x2="0" y2="1">
@@ -179,10 +225,30 @@ export default function History() {
                 ))}
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-              <XAxis dataKey="date" stroke="#6B7280" style={{ fontSize: '12px' }} />
+              <XAxis
+                dataKey="ts"
+                type="number"
+                scale="time"
+                domain={[ 'auto', 'auto' ]}
+                stroke="#6B7280"
+                style={{ fontSize: '12px' }}
+                tickCount={timeRange === '1d' ? 8 : timeRange === '7d' ? 7 : timeRange === '30d' ? 6 : 12}
+                tickFormatter={(ts: number) => {
+                  const d = new Date(ts);
+                  if (timeRange === '1d') return fmtHHmm(d);
+                  if (timeRange === '365d') return fmtMMYYYY(d);
+                  return fmtDDMM(d);
+                }}
+              />
               <YAxis stroke="#6B7280" style={{ fontSize: '12px' }} />
               <Tooltip
                 formatter={(value: number, name: string) => [Number(value.toFixed(1)), name]}
+                labelFormatter={(label: number | string) => {
+                  const d = new Date(Number(label));
+                  if (timeRange === '1d') return `${fmtHHmm(d)} — ${fmtDDMM(d)}`;
+                  if (timeRange === '365d') return fmtMMYYYY(d);
+                  return fmtDDMM(d);
+                }}
                 contentStyle={{
                   backgroundColor: 'rgba(255, 255, 255, 0.95)',
                   border: '1px solid #E5E7EB',

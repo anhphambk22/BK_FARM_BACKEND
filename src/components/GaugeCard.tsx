@@ -60,11 +60,11 @@ export default function GaugeCard({ title, value, unit, status, percentage }: Ga
           <div className="text-3xl animate-bounce">{config.emoji}</div>
         </div>
 
-        <div className="relative w-40 h-20 mx-auto mb-6">
+        <div className="relative w-48 h-28 mx-auto mb-6">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
-              cx="50%" cy="50%"
-              innerRadius="60%" outerRadius="90%"
+              cx="50%" cy="47%"
+              innerRadius="68%" outerRadius="83%"
               data={data}
               startAngle={180} endAngle={0}
             >
@@ -86,12 +86,12 @@ export default function GaugeCard({ title, value, unit, status, percentage }: Ga
             </RadialBarChart>
           </ResponsiveContainer>
 
-          <div className="absolute inset-0 flex flex-col items-center justify-end pb-1">
+          <div className="absolute inset-0 flex flex-col items-center justify-end pb-2">
             <span className={`text-4xl font-black bg-gradient-to-r ${config.gradient}
                              bg-clip-text text-transparent drop-shadow-lg`}>
               {value}
             </span>
-            <span className="text-sm font-medium text-slate-600">{unit}</span>
+            <span className="text-sm font-medium text-slate-600 mt-0.5">{unit}</span>
           </div>
         </div>
 

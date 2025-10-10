@@ -8,13 +8,9 @@ const DEV_CANDIDATES = [
   (import.meta.env.VITE_API_URL as string | undefined) || undefined,
 ].filter(Boolean) as string[];
 
-// In production, prefer same-origin ('') first. If VITE_API_URL is set, try it next.
-const PROD_CANDIDATES = (
-  [
-    '',
-    (import.meta.env.VITE_API_URL as string | undefined) || undefined,
-  ].filter(Boolean) as string[]
-);
+const PROD_CANDIDATES = [
+  (import.meta.env.VITE_API_URL as string | undefined) || 'http://localhost:3000',
+];
 
 const CANDIDATES = import.meta.env.DEV ? DEV_CANDIDATES : PROD_CANDIDATES;
 

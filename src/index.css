@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global UI scaling: make text and icons larger across the app */
+html {
+	/* Increase base font size for the whole app (Tailwind rem-based) */
+	font-size: 18px; /* was ~16px */
+}
+
+@media (max-width: 400px) {
+	html {
+		font-size: 17px; /* slightly smaller on very small devices */
+	}
+}

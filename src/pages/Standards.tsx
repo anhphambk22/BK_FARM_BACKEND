@@ -29,16 +29,16 @@ const StandardItem = ({ label, current, standard, unit, percentage, status }: St
   const Icon = config.icon;
 
   return (
-    <div className={`p-6 rounded-2xl bg-gradient-to-br ${config.bgColor} border border-white/50 shadow-lg transition-all hover:shadow-xl`}>
+    <div className={`p-7 rounded-2xl bg-gradient-to-br ${config.bgColor} border border-white/50 shadow-lg transition-all hover:shadow-xl`}>
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="font-bold text-slate-800 text-lg mb-1">{label}</h3>
+          <h3 className="font-bold text-slate-800 text-xl mb-1">{label}</h3>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-black text-slate-900">{current}</span>
-            <span className="text-sm text-slate-600">{unit}</span>
+            <span className="text-3xl font-black text-blue-700">{current}</span>
+            <span className="text-base text-slate-600">{unit}</span>
           </div>
         </div>
-        <Icon className={`w-8 h-8 ${config.iconColor}`} />
+        <Icon className={`w-10 h-10 ${config.iconColor}`} />
       </div>
 
       <div className="mb-3">
@@ -46,7 +46,7 @@ const StandardItem = ({ label, current, standard, unit, percentage, status }: St
           <span className="text-slate-600">Chuẩn khuyến nghị:</span>
           <span className="font-semibold text-slate-800">{standard}</span>
         </div>
-        <div className="h-3 bg-white/60 rounded-full overflow-hidden shadow-inner">
+        <div className="h-3.5 bg-white/60 rounded-full overflow-hidden shadow-inner">
           <div
             className={`h-full bg-gradient-to-r ${config.barColor} rounded-full transition-all duration-1000 shadow-lg`}
             style={{ width: `${percentage}%` }}
@@ -55,7 +55,7 @@ const StandardItem = ({ label, current, standard, unit, percentage, status }: St
       </div>
 
       <div className="flex justify-end">
-        <span className={`text-sm font-bold ${status === 'good' ? 'text-emerald-700' : 'text-orange-700'}`}>
+        <span className={`text-base font-bold ${status === 'good' ? 'text-emerald-700' : 'text-orange-700'}`}>
           {percentage}% đạt chuẩn
         </span>
       </div>
@@ -79,9 +79,9 @@ export default function Standards() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+        <h1 className="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
           Xem tình trạng chuẩn
         </h1>
         <p className="text-slate-600">
@@ -160,12 +160,55 @@ export default function Standards() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
-        <h2 className="text-2xl font-bold text-slate-800 mb-6">Chi tiết các chỉ số</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {standards.map((standard, idx) => (
-            <StandardItem key={idx} {...standard} />
-          ))}
+      <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+        <h2 className="text-3xl font-extrabold text-blue-700 mb-6">Chi tiết các chỉ số</h2>
+
+        {/* Phân nhóm theo giai đoạn phát triển */}
+        <div className="space-y-10">
+          {/* Giai đoạn 1: Ươm mầm */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-slate-800">Giai đoạn 1: Ươm mầm</h3>
+              <span className="text-blue-700 font-black text-xl">Chú trọng: Nhiệt độ, Độ ẩm</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {standards
+                .filter(s => ['Nhiệt độ không khí','Độ ẩm không khí','Ánh sáng'].includes(s.label))
+                .map((standard, idx) => (
+                  <StandardItem key={`g1-${idx}`} {...standard} />
+                ))}
+            </div>
+          </div>
+
+          {/* Giai đoạn 2: Sinh trưởng */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-slate-800">Giai đoạn 2: Sinh trưởng</h3>
+              <span className="text-blue-700 font-black text-xl">Chú trọng: Đất & Dinh dưỡng</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {standards
+                .filter(s => ['Nhiệt độ đất','Độ ẩm đất','pH đất'].includes(s.label))
+                .map((standard, idx) => (
+                  <StandardItem key={`g2-${idx}`} {...standard} />
+                ))}
+            </div>
+          </div>
+
+          {/* Giai đoạn 3: Ra hoa / Nuôi quả */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-slate-800">Giai đoạn 3: Ra hoa / Nuôi quả</h3>
+              <span className="text-blue-700 font-black text-xl">Chú trọng: N-P-K</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {standards
+                .filter(s => ['Nitơ (N)','Phốt pho (P)','Kali (K)'].includes(s.label))
+                .map((standard, idx) => (
+                  <StandardItem key={`g3-${idx}`} {...standard} />
+                ))}
+            </div>
+          </div>
         </div>
       </div>
 

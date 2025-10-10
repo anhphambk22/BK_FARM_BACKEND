@@ -17,17 +17,17 @@ const MenuItem = ({ icon: Icon, text, active, onClick }: MenuItemProps) => (
         : 'hover:bg-white/10 hover:scale-102 hover:shadow-lg backdrop-blur-sm'
       }`}
   >
-    <div className={`p-2 rounded-xl mr-3 transition-all
+    <div className={`p-3 rounded-xl mr-4 transition-all
       ${active
         ? 'bg-gradient-to-r from-orange-400 to-yellow-400 shadow-lg'
         : 'bg-white/20 group-hover:bg-white/30'
       }`}>
-      <Icon className={`w-5 h-5 transition-colors
+      <Icon className={`w-7 h-7 transition-colors
         ${active ? 'text-white' : 'text-orange-200 group-hover:text-white'}
       `} />
     </div>
 
-    <span className={`font-medium transition-all
+    <span className={`font-semibold text-lg transition-all
       ${active
         ? 'text-white font-semibold'
         : 'text-gray-200 group-hover:text-white'
