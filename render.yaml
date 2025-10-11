@@ -1,0 +1,43 @@
+# Render Blueprint for BK Farmers Project
+# Deploys backend (Web Service) and frontend (Static Site)
+
+services:
+  # Backend API
+  - type: web
+    name: bkfarmers-backend
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: cd bkfarmers-backend && npm install
+    startCommand: cd bkfarmers-backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false  # Set manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false  # Set manually in Render dashboard
+      - key: TOKEN_EXPIRE
+        value: 7d
+    healthCheckPath: /api/auth/dev/users
+
+  # Frontend Static Site
+  - type: web
+    name: bkfarmers-frontend
+    runtime: static
+    region: singapore
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false  # Will be set to backend URL after backend deploys
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
