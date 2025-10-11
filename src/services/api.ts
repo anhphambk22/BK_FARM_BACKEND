@@ -28,8 +28,12 @@ async function tryFetch(path: string, init?: RequestInit) {
     const url = base ? joinUrl(base, path) : path;
     try {
       const res = await fetch(url, init);
-      // Only accept successful responses; otherwise try the next candidate (e.g., proxy 502).
-      if (res.ok) return res;
+      // Nếu server trả response (kể cả lỗi 4xx/5xx), coi như kết nối thành công
+      // Chỉ retry nếu network error hoặc server không phản hồi
+      if (res.status >= 200 && res.status < 600) {
+        // Server responded (success or error) - return it
+        return res;
+      }
       errors.push(`${url}: HTTP ${res.status}`);
       continue;
     } catch (e) {

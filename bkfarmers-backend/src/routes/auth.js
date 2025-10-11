@@ -10,10 +10,19 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   try {
     const { phone, password } = req.body;
-    console.log('Register attempt for phone:', phone);
-    if (!phone || !password) return res.status(400).json({ message: 'Missing phone or password' });
+    console.log('Register request body:', JSON.stringify(req.body));
+    console.log('Register attempt - phone:', phone, 'password:', password ? '(provided)' : '(MISSING)');
+    
+    if (!phone || !password) {
+      console.log('❌ Missing fields - phone:', !!phone, 'password:', !!password);
+      return res.status(400).json({ message: 'Thiếu số điện thoại hoặc mật khẩu' });
+    }
+    
     const existing = await User.findOne({ phone });
-    if (existing) return res.status(400).json({ message: 'Phone already used' });
+    if (existing) {
+      console.log('❌ Phone already exists:', phone);
+      return res.status(400).json({ message: 'Số điện thoại đã được đăng ký' });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
