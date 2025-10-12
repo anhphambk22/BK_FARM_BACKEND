@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
-    const user = new User({ phone, passwordHash });
+    const username = `user_${phone}`; // auto-generate username from phone`n    const user = new User({ phone, username, passwordHash });
     await user.save();
 
     // sign token and return user so frontend can auto-login
