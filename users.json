@@ -1,0 +1,14 @@
+[
+  {
+    "username": "admin",
+    "password": "$2a$10$9PKTf1M2G0ylBxoQgm.5zO/PCAXu5JaLDhK7VtwlACiRixSpxz3Bu", 
+    "role": "farmer",
+    "mustChangePassword": false
+  },
+  {
+    "username": "newuser",
+    "password": "$2a$10$Oty94t0Pg9GZr9yq9q9qZuyx4S4tb4rSkRJ1GEb8OKhZx27Avxmeu", 
+    "role": "farmer",
+    "mustChangePassword": true
+  }
+]
