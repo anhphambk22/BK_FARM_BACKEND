@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-import { connectDB } from './config/db.js';
+import mongoose from 'mongoose';
+import { connectDB, isInMemory } from './config/db.js';
 
 dotenv.config();
 
@@ -13,7 +14,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/api/health', (req, res) => {
-  res.json({ ok: true });
+  res.json({
+    ok: true,
+    dbReadyState: mongoose.connection.readyState,
+    isInMemory,
+  });
 });
 
 import authRoutes from './routes/auth.js';

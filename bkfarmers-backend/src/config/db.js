@@ -2,14 +2,25 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/bkfarmers';
+const MONGO_URI = process.env.MONGO_URI;
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const DEFAULT_LOCAL_URI = 'mongodb://localhost:27017/bkfarmers';
+const CONNECT_OPTIONS = {
+  dbName: 'bkfarmers',
+  serverSelectionTimeoutMS: 8000,
+  connectTimeoutMS: 8000,
+};
 
 // Flag to know if we connected to in-memory MongoDB
 export let isInMemory = false;
 
 export async function connectDB() {
   try {
-    await mongoose.connect(MONGO_URI, { dbName: 'bkfarmers' });
+    if (!MONGO_URI && IS_PRODUCTION) {
+      throw new Error('MONGO_URI is missing in production');
+    }
+    const uri = MONGO_URI || DEFAULT_LOCAL_URI;
+    await mongoose.connect(uri, CONNECT_OPTIONS);
     isInMemory = false;
     const conn = mongoose.connection;
     console.log(`MongoDB connected → host: ${conn.host}, db: ${conn.name}`);
@@ -17,7 +28,7 @@ export async function connectDB() {
   } catch (err) {
     console.error('MongoDB connection error:', err && err.message ? err.message : err);
     // Fallback: try an in-memory MongoDB for local development
-    if (process.env.DISABLE_INMEMORY_FALLBACK === 'true') {
+    if (process.env.DISABLE_INMEMORY_FALLBACK === 'true' || IS_PRODUCTION) {
       console.error('In-memory fallback disabled by DISABLE_INMEMORY_FALLBACK=true');
       throw err;
     }
