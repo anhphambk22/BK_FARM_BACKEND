@@ -21,7 +21,7 @@ services:
         sync: false  # Set manually in Render dashboard
       - key: TOKEN_EXPIRE
         value: 7d
-    healthCheckPath: /api/auth/dev/users
+    healthCheckPath: /api/health
 
   # Frontend Static Site
   - type: web
