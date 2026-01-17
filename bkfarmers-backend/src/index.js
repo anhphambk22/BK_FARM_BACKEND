@@ -25,7 +25,23 @@ import authRoutes from './routes/auth.js';
 app.use('/api/auth', authRoutes);
 
 import aiRoutes from './routes/ai.js';
+console.log('Mounting AI routes at /api/ai');
 app.use('/api/ai', aiRoutes);
+// Debug route to list all routes
+app.get('/api/debug-routes', (req, res) => {
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      routes.push(middleware.route.path);
+    } else if (middleware.name === 'router') {
+      middleware.handle.stack.forEach((handler) => {
+        if (handler.route) routes.push(handler.route.path);
+      });
+    }
+  });
+  res.json(routes);
+});
+
 
 // --- Serve frontend build (all-in-one) ---
 // Resolve root/dist path relative to this file (bkfarmers-backend/src)
