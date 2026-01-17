@@ -1,6 +1,6 @@
 {
   "name": "bkfarmers-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "BK Farmers backend API",
   "main": "src/index.js",
   "type": "module",
