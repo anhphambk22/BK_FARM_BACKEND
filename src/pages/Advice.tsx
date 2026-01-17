@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Send, Sparkles, Volume2 } from 'lucide-react';
+import { chat } from '../services/api';
 
 // Cấu trúc tin nhắn
 interface Message {
@@ -26,6 +27,7 @@ export default function Advice() {
     }
   ]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const quickSuggestions = [
     '🌧️ Khi nào nên tưới nước?',
@@ -35,66 +37,26 @@ export default function Advice() {
     '☀️ Chăm sóc theo mùa?',
   ];
 
-  const handleSend = (text: string) => {
-    if (!text.trim()) return;
+  const handleSend = async (text: string) => {
+    if (!text.trim() || isLoading) return;
 
-    setMessages((prev) => [...prev, { role: 'user', content: text }]);
+    const userMessage: Message = { role: 'user', content: text };
+    const historyForApi = [...messages, userMessage];
+
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    setIsLoading(true);
 
-    setTimeout(() => {
-      let response = '';
-      const lower = text.toLowerCase();
-
-      if (lower.includes('tưới') || lower.includes('nước')) {
-        response =
-          '**💧 Khuyến nghị tưới nước:**\n\n' +
-          '• Độ ẩm đất hiện tại ~65% – khá tốt!\n' +
-          '• Tưới vào sáng sớm (5–7h) hoặc chiều mát (16–18h)\n' +
-          '• 2–3 lần/tuần tuỳ thời tiết\n' +
-          '• Tránh tưới giữa trưa nắng gắt';
-      } else if (lower.includes('năng suất')) {
-        response =
-          '**📈 Tăng năng suất:**\n\n' +
-          '1️⃣ Duy trì nhiệt độ 18–25°C\n' +
-          '2️⃣ Độ ẩm KK 60–80%\n' +
-          '3️⃣ Bón NPK đúng liều\n' +
-          '4️⃣ pH đất 5.5–6.5\n' +
-          '5️⃣ Ánh sáng đủ 6–8h/ngày\n' +
-          '👉 Các chỉ số hiện tại của bạn đều tốt, cứ tiếp tục nhé 🌟';
-      } else if (lower.includes('sâu') || lower.includes('bệnh')) {
-        response =
-          '**🐛 Phòng trừ sâu bệnh:**\n\n' +
-          '✅ Biện pháp sinh học: dầu neem, tỏi, ớt, bẫy đèn\n' +
-          '⚠️ Thuốc BVTV: chọn loại sinh học, phun đúng liều, đúng lúc\n' +
-          '💡 Hiện tại môi trường cây của bạn đang khỏe mạnh!';
-      } else if (lower.includes('phân') || lower.includes('bón')) {
-        response =
-          '**🌾 Hướng dẫn bón phân:**\n\n' +
-          '• N: 45 ppm ✅  P: 25 ppm ✅  K: 35 ppm ✅\n' +
-          '📅 Lịch:\n' +
-          '- Sinh trưởng: NPK 16-16-8 (2 tuần/lần)\n' +
-          '- Ra hoa: NPK 10-20-20\n' +
-          '- Kết trái: NPK 5-10-15';
-      } else if (lower.includes('mùa') || lower.includes('thời tiết')) {
-        response =
-          '**☀️ Chăm sóc theo mùa:**\n\n' +
-          '🌸 Xuân: tăng N, tưới đều\n' +
-          '☀️ Hè: che nắng, tưới sáng + chiều\n' +
-          '🍂 Thu: giảm đạm, tăng lân/kali\n' +
-          '❄️ Đông: giảm tưới, tránh úng\n' +
-          '📅 Tháng 10 – sắp mùa thu hoạch!';
-      } else {
-        response =
-          '**🌱 Bạn có thể hỏi tôi về:**\n' +
-          '• Cách tưới nước\n' +
-          '• Tăng năng suất\n' +
-          '• Phòng sâu bệnh\n' +
-          '• Bón phân, lịch chăm sóc\n\n' +
-          '💬 Hãy mô tả cụ thể vấn đề của cây trồng nhé!';
-      }
-
-      setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
-    }, 800);
+    try {
+      const data = await chat(historyForApi);
+      const reply = data?.reply?.trim() || 'Xin lỗi, tôi chưa có câu trả lời phù hợp lúc này.';
+      setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Lỗi không xác định.';
+      setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${msg}` }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -181,19 +143,25 @@ export default function Advice() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend(input)}
             placeholder="Nhập câu hỏi của bạn..."
+            disabled={isLoading}
             className="flex-1 px-6 py-4 rounded-full border-2 border-emerald-200
                        focus:border-emerald-500 focus:outline-none
-                       text-slate-800 placeholder-slate-400"
+                       text-slate-800 placeholder-slate-400 disabled:opacity-60"
           />
           <button
             onClick={() => handleSend(input)}
+            disabled={isLoading}
             className="px-6 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500
                        text-white font-semibold hover:from-emerald-600 hover:to-teal-600
-                       transition-all duration-300 transform hover:scale-105 shadow-lg"
+                       transition-all duration-300 transform hover:scale-105 shadow-lg
+                       disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <Send className="w-5 h-5" />
           </button>
         </div>
+        {isLoading && (
+          <div className="text-center text-sm text-slate-500 mt-2">Đang trả lời…</div>
+        )}
       </div>
     </div>
   );

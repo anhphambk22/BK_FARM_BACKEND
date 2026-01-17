@@ -97,3 +97,18 @@ export async function me(token: string) {
   if (!res.ok) throw new Error('Not authorized');
   return res.json();
 }
+
+export type ChatMessage = { role: 'user' | 'assistant'; content: string };
+
+export async function chat(messages: ChatMessage[]) {
+  const res = await tryFetch('/api/ai/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages }),
+  });
+  if (!res.ok) {
+    const data = (await jsonOrEmpty(res)) as unknown;
+    throw new Error(getMessage(data, 'Chat failed'));
+  }
+  return res.json() as Promise<{ reply: string }>;
+}
