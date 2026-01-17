@@ -50,15 +50,17 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..', '..');
 const distDir = path.join(rootDir, 'dist');
 
-if (fs.existsSync(distDir)) {
-	// Serve static files
-	app.use(express.static(distDir));
-	// SPA fallback for non-API routes
-	app.get(/^(?!\/api).*/, (req, res) => {
-		res.sendFile(path.join(distDir, 'index.html'));
-	});
-} else {
-	console.log('dist/ not found — frontend build not served by backend. Run "npm run build" at project root for all-in-one.');
+if (process.env.SERVE_FRONTEND === 'true') {
+  if (fs.existsSync(distDir)) {
+    // Serve static files
+    app.use(express.static(distDir));
+    // SPA fallback for non-API routes
+    app.get(/^(?!\/api).*/, (req, res) => {
+      res.sendFile(path.join(distDir, 'index.html'));
+    });
+  } else {
+    console.warn('SERVE_FRONTEND=true but dist/ not found. Build the frontend separately and copy dist/ here.');
+  }
 }
 
 const PORT = process.env.PORT || 5000;

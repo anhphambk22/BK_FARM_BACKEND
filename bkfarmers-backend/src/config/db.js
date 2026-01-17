@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI || process.env.MONGO_URL;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const DEFAULT_LOCAL_URI = 'mongodb://localhost:27017/bkfarmers';
+const DEFAULT_DB_NAME = process.env.MONGO_DBNAME || 'bkfarmers';
 const CONNECT_OPTIONS = {
-  dbName: 'bkfarmers',
   serverSelectionTimeoutMS: 8000,
   connectTimeoutMS: 8000,
 };
@@ -20,7 +20,9 @@ export async function connectDB() {
       throw new Error('MONGO_URI is missing in production');
     }
     const uri = MONGO_URI || DEFAULT_LOCAL_URI;
-    await mongoose.connect(uri, CONNECT_OPTIONS);
+    const hasDbInUri = /mongodb(\+srv)?:\/\/[^/]+\/[^?]+/.test(uri);
+    const options = hasDbInUri ? CONNECT_OPTIONS : { ...CONNECT_OPTIONS, dbName: DEFAULT_DB_NAME };
+    await mongoose.connect(uri, options);
     isInMemory = false;
     const conn = mongoose.connection;
     console.log(`MongoDB connected → host: ${conn.host}, db: ${conn.name}`);
