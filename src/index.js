@@ -15,6 +15,12 @@ app.use(express.json());
 import authRoutes from './routes/auth.js';
 app.use('/api/auth', authRoutes);
 
+import aiRoutes from './routes/ai.js';
+app.use('/api/ai', aiRoutes);
+
+import sensorRoutes from './routes/sensor.js';
+app.use('/api/sensor', sensorRoutes);
+
 // --- Serve frontend build (all-in-one) ---
 // Resolve root/dist path relative to this file (bkfarmers-backend/src)
 const __filename = fileURLToPath(import.meta.url);
