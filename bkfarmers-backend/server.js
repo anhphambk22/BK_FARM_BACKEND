@@ -4,12 +4,13 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import sensorRoutes from "./src/routes/sensor.js";
 
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-
+app.use("/api/sensor", sensorRoutes);
 const USERS_FILE = './users.json';
 
 // Helper đọc và ghi file user
