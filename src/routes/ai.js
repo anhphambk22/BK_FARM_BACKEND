@@ -29,6 +29,9 @@ router.post('/chat', async (req, res) => {
       parts: [{ text: String(msg.content || '') }],
     }));
 
+    if (!process.env.GEMINI_MODEL) {
+      return res.status(500).json({ message: 'Thiếu GEMINI_MODEL trên server.' });
+    }
     const model = process.env.GEMINI_MODEL.trim();
     const apiVersion = process.env.GEMINI_API_VERSION || 'v1beta';
     const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`;

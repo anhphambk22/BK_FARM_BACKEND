@@ -5,7 +5,7 @@ const router = express.Router();
 // Lấy toàn bộ dữ liệu cảm biến
 router.get("/all", async (req, res) => {
   try {
-    const ref = db.ref("sensor-data");
+    const ref = db.ref("gateway/data");
     ref.once("value", (snapshot) => {
       res.json(snapshot.val());
     }, (error) => {
