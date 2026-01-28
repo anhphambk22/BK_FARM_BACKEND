@@ -29,8 +29,8 @@ router.post('/chat', async (req, res) => {
       parts: [{ text: String(msg.content || '') }],
     }));
 
-    const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash-latest';
-    const apiVersion = process.env.GEMINI_API_VERSION || 'v1';
+    const model = process.env.GEMINI_MODEL.trim();
+    const apiVersion = process.env.GEMINI_API_VERSION || 'v1beta';
     const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`;
 
     const body = {
@@ -41,16 +41,12 @@ router.post('/chat', async (req, res) => {
       },
     };
 
+    // Chỉ dùng systemInstruction cho v1beta, không thêm [SYSTEM] vào prompt
     if (apiVersion === 'v1beta') {
       body.systemInstruction = {
         role: 'system',
         parts: [{ text: SYSTEM_PROMPT }],
       };
-    } else {
-      body.contents = [
-        { role: 'user', parts: [{ text: `[SYSTEM]\n${SYSTEM_PROMPT}` }] },
-        ...contents,
-      ];
     }
 
     const response = await fetch(url, {
@@ -58,7 +54,6 @@ router.post('/chat', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-
     const data = await response.json();
 
     if (!response.ok) {
