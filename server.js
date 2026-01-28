@@ -6,9 +6,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 dotenv.config();
+import sensorRoutes from "./src/routes/sensor.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use("/api/sensor", sensorRoutes);
 
 const USERS_FILE = './users.json';
 
