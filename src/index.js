@@ -21,6 +21,9 @@ app.use('/api/ai', aiRoutes);
 import sensorRoutes from './routes/sensor.js';
 app.use('/api/sensor', sensorRoutes);
 
+import marketRoutes from './routes/market.js';
+app.use('/api/market', marketRoutes);
+
 // --- Serve frontend build (all-in-one) ---
 // Resolve root/dist path relative to this file (bkfarmers-backend/src)
 const __filename = fileURLToPath(import.meta.url);
