@@ -9,6 +9,8 @@ const WEATHER_CACHE_TTL_MS = 15 * 1000;
 const EXPORTER_SOURCE_URL =
   'https://trangvangvietnam.com/tagprovince/50062680/nh%C3%A0-xu%E1%BA%A5t-kh%E1%BA%A9u-c%C3%A0-ph%C3%AA-%E1%BB%9F-t%E1%BA%A1i-tp.-h%E1%BB%93-ch%C3%AD-minh-(tphcm).html';
 const EXPORTER_CACHE_TTL_MS = 15 * 1000;
+const FERTILIZER_SOURCE_URL = 'https://nongnghieppho.vn/collections/phan-bon';
+const FERTILIZER_CACHE_TTL_MS = 15 * 1000;
 
 const WEST_HIGHLANDS_PROVINCES = [
   { slug: 'lam-dong', name: 'Lâm Đồng' },
@@ -27,6 +29,11 @@ let exporterCache = {
 };
 
 let coffeeCache = {
+  updatedAt: 0,
+  payload: null,
+};
+
+let fertilizerCache = {
   updatedAt: 0,
   payload: null,
 };
@@ -162,6 +169,64 @@ function decodeHtmlEntities(value) {
     .replace(/&#39;/g, "'")
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
+}
+
+function normalizeKeyword(value) {
+  return decodeHtmlEntities(value)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractCoffeeFertilizers(html, limit = 8) {
+  const regex = /<h3[^>]*class="product-name"[^>]*>\s*<a[^>]*href="([^"]+)"[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/a>\s*<\/h3>[\s\S]*?<span[^>]*class="price"[^>]*>([\s\S]*?)<\/span>/gi;
+  const products = [];
+  const seen = new Set();
+
+  const coffeeKeywords = [
+    'ca phe',
+    'coffee',
+    'npk',
+    'huu co',
+    'vi sinh',
+    'kali',
+    'humic',
+    'trung vi luong',
+    'vi luong',
+    'bo re',
+  ];
+
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const rawHref = match[1] || '';
+    const rawTitle = match[2] || match[3] || '';
+    const rawName = match[3] || match[2] || '';
+    const rawPrice = match[4] || '';
+
+    const name = cleanText(decodeHtmlEntities(rawName || rawTitle));
+    const normalizedName = normalizeKeyword(name);
+    const isCoffeeRelated = coffeeKeywords.some((keyword) => normalizedName.includes(keyword));
+    if (!isCoffeeRelated) continue;
+
+    const href = rawHref.startsWith('http') ? rawHref : `https://nongnghieppho.vn${rawHref}`;
+    const price = cleanText(decodeHtmlEntities(rawPrice));
+
+    if (!href || !name || seen.has(href)) continue;
+    seen.add(href);
+
+    products.push({
+      name,
+      price: price || 'Liên hệ báo giá',
+      url: href,
+      source: 'Nông Nghiệp Phố',
+    });
+
+    if (products.length >= limit) break;
+  }
+
+  return products;
 }
 
 function extractTrangVangExporters(html, limit = 12) {
@@ -389,6 +454,59 @@ router.get('/exporters/hcm', async (req, res) => {
   } catch (err) {
     console.error('TrangVang exporters fetch error:', err);
     return res.status(500).json({ message: 'Không lấy được dữ liệu nhà xuất khẩu từ Trang Vàng.' });
+  }
+});
+
+router.get('/fertilizers/coffee', async (req, res) => {
+  try {
+    const now = Date.now();
+    if (fertilizerCache.payload && now - fertilizerCache.updatedAt < FERTILIZER_CACHE_TTL_MS) {
+      return res.json({
+        ...fertilizerCache.payload,
+        cached: true,
+      });
+    }
+
+    const response = await fetch(FERTILIZER_SOURCE_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 BKFarmBackend/1.0',
+      },
+      timeout: 15000,
+    });
+
+    if (!response.ok) {
+      return res.status(502).json({ message: `Không lấy được dữ liệu phân bón (HTTP ${response.status}).` });
+    }
+
+    const html = await response.text();
+    const fertilizers = extractCoffeeFertilizers(html, 8);
+
+    if (!fertilizers.length) {
+      return res.status(502).json({ message: 'Không phân tích được danh sách phân bón phù hợp cho cà phê từ nguồn.' });
+    }
+
+    const payload = {
+      source: FERTILIZER_SOURCE_URL,
+      fetchedAt: new Date().toISOString(),
+      fertilizers,
+      cached: false,
+    };
+
+    fertilizerCache = {
+      updatedAt: now,
+      payload,
+    };
+
+    return res.json(payload);
+  } catch (err) {
+    console.error('Fertilizer fetch error:', err);
+    if (fertilizerCache.payload) {
+      return res.json({
+        ...fertilizerCache.payload,
+        cached: true,
+      });
+    }
+    return res.status(500).json({ message: 'Không lấy được dữ liệu phân bón.' });
   }
 });
 
