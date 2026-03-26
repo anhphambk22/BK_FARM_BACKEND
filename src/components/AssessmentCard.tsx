@@ -7,6 +7,39 @@ interface AssessmentItemProps {
   gradient: string;
 }
 
+interface SeasonalMessage {
+  icon: string;
+  label: string;
+}
+
+const getSeasonalMessage = (month: number): SeasonalMessage => {
+  if (month >= 3 && month <= 4) {
+    return {
+      icon: '🌿',
+      label: `Đang vào giai đoạn sinh trưởng cành lá (tháng ${month})`
+    };
+  }
+
+  if (month >= 5 && month <= 7) {
+    return {
+      icon: '🌼',
+      label: 'Đang vào giai đoạn phân hóa mầm hoa (tháng 5-7)'
+    };
+  }
+
+  if (month >= 8 && month <= 11) {
+    return {
+      icon: '🍃',
+      label: 'Đang vào giai đoạn ra hoa và đậu quả (tháng 8-11)'
+    };
+  }
+
+  return {
+    icon: '🌾',
+    label: 'Đang vào giai đoạn nuôi quả và thu hoạch (tháng 12-2)'
+  };
+};
+
 const AssessmentItem = ({ emoji, title, value, status, tip, gradient }: AssessmentItemProps) => (
   <div className="text-center group relative">
     <div className="text-5xl mb-3 transform group-hover:scale-110
@@ -41,6 +74,9 @@ const AssessmentItem = ({ emoji, title, value, status, tip, gradient }: Assessme
 );
 
 export default function AssessmentCard() {
+  const currentMonth = new Date().getMonth() + 1;
+  const seasonalMessage = getSeasonalMessage(currentMonth);
+
   return (
     <div className="relative group">
       <div className="absolute -inset-1 bg-gradient-to-r
@@ -100,12 +136,12 @@ export default function AssessmentCard() {
                         border border-orange-400/30">
           <div className="text-2xl mb-2">
             <span className="animate-bounce inline-block">📅</span>
-            <span className="animate-pulse inline-block ml-2">🌾</span>
+            <span className="animate-pulse inline-block ml-2">{seasonalMessage.icon}</span>
             <span className="animate-bounce inline-block ml-2">⏰</span>
           </div>
           <span className="text-xl font-bold bg-gradient-to-r
                            from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-            Sắp đến mùa thu hoạch (tháng 10-12)
+            {seasonalMessage.label}
           </span>
         </div>
 

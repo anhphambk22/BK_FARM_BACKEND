@@ -1,0 +1,1370 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang thông tin dự báo thời tiết Việt Nam - Thoitiet.vn</title>
+    <meta name="description" content="Cập nhật dự báo thời tiết hôm nay, ngày mai, theo giờ tại tất cả các tỉnh thành phố, núi, biển và dự báo khả năng có mưa, thời tiết cực đoan tại thoitiet.vn" />
+    <meta name="keywords" content="thời tiết, dự báo thời tiết, thời tiết hiện tại" />
+    <meta name="robots" content="index, follow" />
+    <meta name='robots' content='max-image-preview:large' />
+    <link rel="canonical" href="https://thoitiet.vn/">
+    <meta property="fb:pages" content="109224270998756" />
+    <meta property="fb:app_id" content="1879359212516687" />
+    <meta property="og:image" content="https://data.thoitiet.vn/weather/thoitiet.vn-shared.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:title" content="Trang thông tin dự báo thời tiết Việt Nam - Thoitiet.vn" />
+    <meta property="og:url" content="https://thoitiet.vn/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title_name" content="Trang thông tin dự báo thời tiết Việt Nam - Thoitiet.vn" />
+    <meta property="og:description" content="Cập nhật dự báo thời tiết hôm nay, ngày mai, theo giờ tại tất cả các tỉnh thành phố, núi, biển và dự báo khả năng có mưa, thời tiết cực đoan tại thoitiet.vn" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@vanvuongnv" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap-icons/bootstrap-icons.css" />
+
+    <link href="/css/card.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/site.css?v=hwgjZ-Xb4qI98fSjzItoHFH9oxBvX0a9oMx9yRAtiFs" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5437093769370767" crossorigin="anonymous"></script>
+     
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "ArchiveOrganization",
+          "name": "thoitiet",
+          "alternateName": "Dự báo thời tiết các tỉnh - thành phố, biển, đất liền ở Việt Nam",
+          "url": "https://thoitiet.vn",
+          "description": "Cập nhật dự báo thời tiết vùng biển, đất liền, các tỉnh, thành phố ở Việt Nam. Dự báo thời tiết hôm nay, ngày mai và theo giờ. Bản đồ vệ tinh việt nam",
+          "priceRange": "0",
+          "logo": "https://thoitiet.vn/img/logo-header.png",
+          "image":"https://thoitiet.vn/img/logo-header.png",
+          "email": "contact@thoitiet.vn"          
+        }
+    </script>
+
+    <style>
+        .section-wheather{
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+<header class="bg-white">
+    <div class="py-1 border-bottom shadow-sm">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-4  order-0">
+                    <div class="header-location">
+                        <span>
+                            <i class="bi bi-geo-alt"></i>
+                            Thành phố của bạn:
+                        </span>
+                        <a class="btn btn-link" href="/ha-noi">
+                            Hà Nội
+                        </a>
+                        <span class="btn btn-link btn-sm text-muted" onclick="changeLocation()">
+                            <i class="bi bi-arrow-repeat"></i>
+                            Thay đổi
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 order-3 order-md-2">
+
+                </div>
+                <div class="col-6 col-md-4 order-2">
+                    <div class="header-timer text-right">
+                        <span>
+                            <i class="bi bi-clock"></i>
+                            Giờ địa phương:
+                        </span>
+                        <span class="btn btn-link" id="timer">08:48 | 26/03/2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<nav class="navbar sticky-top navbar-expand-md pb-1 bg-white navbar-light">
+    <div class="container" style="position:relative">
+        <a class="navbar-brand logo" href="/">
+            <img src="/img/logo-header.png" class="img-fluid d-none d-md-block" />
+            <img src="/img/logo-mobile.png" class="img-fluid d-block d-md-none" />
+        </a>
+        <div class="search d-md-none">
+            <div class="form-group mb-0 search-group">
+                <select class="form-control basicModalAutoSelect search-input" name="simple_select"
+                        data-url="/api/Catalog/search-location"
+                        data-noresults-text="Không tìm thấy kết quả."
+                        placeholder="Nhập tên địa điểm..." autocomplete="off"
+                        tabindex="1"
+                        autofocus></select>
+            </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="search d-none d-md-block">
+                <div class="form-group mb-0 search-group">
+                    <select class="form-control basicModalAutoSelect search-input" name="simple_select"
+                            data-url="/api/Catalog/search-location"
+                            data-noresults-text="Không tìm thấy kết quả."
+                            placeholder="Nhập tên địa điểm..." autocomplete="off"
+                            tabindex="1"
+                            autofocus></select>
+                    <span class="search-icon">
+                        <i class="bi bi-search"></i>
+                    </span>
+                </div>
+            </div>
+            <ul class="navbar-nav ml-auto menu">
+                <li class="nav-item dropdown has-megamenu">
+                    <span class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer">
+                        <i class="bi bi-pin-map"></i>
+                        Tỉnh - Thành phố
+                    </span>
+                    <div class="dropdown-menu megamenu rounded-0" role="menu">
+                        <div class="row">
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Đông Bắc Bộ</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/ha-giang" title="Hà Giang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hà Giang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/cao-bang" title="Cao Bằng">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Cao Bằng
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/bac-kan" title="Bắc Kạn">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bắc Kạn
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/tuyen-quang" title="Tuyên Quang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Tuyên Quang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/thai-nguyen" title="Thái Nguyên">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Thái Nguyên
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/lang-son" title="Lạng Sơn">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Lạng Sơn
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/quang-ninh" title="Quảng Ninh">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Quảng Ninh
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/bac-giang" title="Bắc Giang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bắc Giang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/phu-tho" title="Phú Thọ">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Phú Thọ
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Tây Bắc Bộ</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/lao-cai" title="Lào Cai">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Lào Cai
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/dien-bien" title="Điện Biên">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Điện Biên
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/lai-chau" title="Lai Châu">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Lai Châu
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/son-la" title="Sơn La">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Sơn La
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/yen-bai" title="Yên Bái">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Yên Bái
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/hoa-binh" title="Hoà Bình">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hoà Bình
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Đồng bằng sông Hồng</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/ha-noi" title="Hà Nội">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hà Nội
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/vinh-phuc" title="Vĩnh Phúc">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Vĩnh Phúc
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/bac-ninh" title="Bắc Ninh">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bắc Ninh
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/hai-duong" title="Hải Dương">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hải Dương
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/hai-phong" title="Hải Phòng">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hải Phòng
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/hung-yen" title="Hưng Yên">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hưng Yên
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/thai-binh" title="Thái Bình">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Thái Bình
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ha-nam" title="Hà Nam">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hà Nam
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/nam-dinh" title="Nam Định">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Nam Định
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ninh-binh" title="Ninh Bình">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Ninh Bình
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Bắc Trung Bộ</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/thanh-hoa" title="Thanh Hóa">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Thanh Hóa
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/nghe-an" title="Nghệ An">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Nghệ An
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ha-tinh" title="Hà Tĩnh">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hà Tĩnh
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/quang-binh" title="Quảng Bình">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Quảng Bình
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/quang-tri" title="Quảng Trị">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Quảng Trị
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/thua-thien-hue" title="Thừa Thiên Huế">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Thừa Thiên Huế
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Nam Trung Bộ</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/da-nang" title="Đà Nẵng">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Đà Nẵng
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/quang-nam" title="Quảng Nam">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Quảng Nam
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/quang-ngai" title="Quảng Ngãi">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Quảng Ngãi
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/binh-dinh" title="Bình Định">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bình Định
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/phu-yen" title="Phú Yên">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Phú Yên
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/khanh-hoa" title="Khánh Hòa">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Khánh Hòa
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ninh-thuan" title="Ninh Thuận">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Ninh Thuận
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/binh-thuan" title="Bình Thuận">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bình Thuận
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Tây Nguyên</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/kon-tum" title="Kon Tum">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Kon Tum
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/gia-lai" title="Gia Lai">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Gia Lai
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/dak-lak" title="Đắk Lắk">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Đắk Lắk
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/dak-nong" title="Đắk Nông">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Đắk Nông
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/lam-dong" title="Lâm Đồng">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Lâm Đồng
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Đông Nam Bộ</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/binh-phuoc" title="Bình Phước">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bình Phước
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/tay-ninh" title="Tây Ninh">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Tây Ninh
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/binh-duong" title="Bình Dương">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bình Dương
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/dong-nai" title="Đồng Nai">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Đồng Nai
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ba-ria-vung-tau" title="Bà Rịa - Vũng Tàu">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bà Rịa - Vũng Tàu
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ho-chi-minh" title="Hồ Chí Minh">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hồ Chí Minh
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                                <div class="col-6 col-md-3">
+                                    <div class="col-megamenu">
+                                        <h6 class="title">Đồng bằng sông Cửu Long</h6>
+                                        <ul class="mega-submenu">
+                                                <li>
+                                                    <a href="/long-an" title="Long An">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Long An
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/tien-giang" title="Tiền Giang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Tiền Giang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ben-tre" title="Bến Tre">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bến Tre
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/tra-vinh" title="Trà Vinh">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Trà Vinh
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/vinh-long" title="Vĩnh Long">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Vĩnh Long
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/dong-thap" title="Đồng Tháp">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Đồng Tháp
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/an-giang" title="An Giang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        An Giang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/kien-giang" title="Kiên Giang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Kiên Giang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/can-tho" title="Cần Thơ">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Cần Thơ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/hau-giang" title="Hậu Giang">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Hậu Giang
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/soc-trang" title="Sóc Trăng">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Sóc Trăng
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/bac-lieu" title="Bạc Liêu">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Bạc Liêu
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ca-mau" title="Cà Mau">
+                                                        <i class="bi bi-arrow-right-short"></i>
+                                                        Cà Mau
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                    </div>  <!-- col-megamenu.// -->
+                                </div><!-- end col-3 -->
+                        </div><!-- end row -->
+                    </div> <!-- dropdown-mega-menu.// -->
+                </li>
+                <li class="nav-item">
+                    <a rel="nofollow" class="nav-link" href="/luong-mua">
+                        <i class="bi bi-cloud-lightning-rain"></i>
+                        Lượng mưa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a rel="nofollow" class="nav-link" href="/tin-tong-hop/kham-pha">
+                        <i class="bi bi-rss"></i>
+                        Khám phá
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <main class="weather-day">
+        
+<section class="section-container section-wheather">
+    <div class="container">
+        <div class="row">
+            <!--Danh sách thành phố, điểm đến, núi-->
+            <div class="col-12 col-md-8 order-1 order-sm-0">
+                <h1 class="wheather-group-title">Dự báo thời tiết các Tỉnh/Thành phố</h1>
+                <div class="row">
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/ha-giang">
+            <h3 class="card-city-title">Hà Giang</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/04d@2x.png" alt="Hà Giang" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    69 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây cụm
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">27.6°</p>
+                <p>/</p>
+                <p title="Cảm giác như">29.7°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/cao-bang">
+            <h3 class="card-city-title">Cao Bằng</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/04d@2x.png" alt="Cao Bằng" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    65 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây cụm
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">27.2°</p>
+                <p>/</p>
+                <p title="Cảm giác như">28.2°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/lao-cai">
+            <h3 class="card-city-title">Lào Cai</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/03d@2x.png" alt="Lào Cai" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    65 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây rải rác
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">27.6°</p>
+                <p>/</p>
+                <p title="Cảm giác như">28.3°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/dien-bien">
+            <h3 class="card-city-title">Điện Biên</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/01d@2x.png" alt="Điện Biên" title="Clear" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    27 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Bầu trời quang đãng
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">29.6°</p>
+                <p>/</p>
+                <p title="Cảm giác như">27.7°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/ha-noi">
+            <h3 class="card-city-title">Hà Nội</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/04d@2x.png" alt="Hà Nội" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    88 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Nhiều mây
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">25.9°</p>
+                <p>/</p>
+                <p title="Cảm giác như">26.4°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/hai-phong">
+            <h3 class="card-city-title">Hải Phòng</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/04d@2x.png" alt="Hải Phòng" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    78 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây cụm
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">26.9°</p>
+                <p>/</p>
+                <p title="Cảm giác như">26.1°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/thanh-hoa">
+            <h3 class="card-city-title">Thanh Hóa</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/02d@2x.png" alt="Thanh Hóa" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    79 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây thưa
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">25.7°</p>
+                <p>/</p>
+                <p title="Cảm giác như">27°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/quang-tri">
+            <h3 class="card-city-title">Quảng Trị</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/01d@2x.png" alt="Quảng Trị" title="Clear" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    71 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Bầu trời quang đãng
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">27.1°</p>
+                <p>/</p>
+                <p title="Cảm giác như">29.6°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/da-nang">
+            <h3 class="card-city-title">Đà Nẵng</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/02d@2x.png" alt="Đà Nẵng" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    83 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây thưa
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">25.9°</p>
+                <p>/</p>
+                <p title="Cảm giác như">26.8°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/quang-ngai">
+            <h3 class="card-city-title">Quảng Ngãi</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/01d@2x.png" alt="Quảng Ngãi" title="Clear" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    67 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Bầu trời quang đãng
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">26.4°</p>
+                <p>/</p>
+                <p title="Cảm giác như">26.5°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/binh-thuan">
+            <h3 class="card-city-title">Bình Thuận</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/02d@2x.png" alt="Bình Thuận" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    47 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây thưa
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">28.8°</p>
+                <p>/</p>
+                <p title="Cảm giác như">28°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <article class="forecast">
+                                
+<div class="location-wheather">
+    <div class="card mb-3">
+        <a href="/ca-mau">
+            <h3 class="card-city-title">Cà Mau</h3>
+            <div class="card-city-body">
+                <img src="https://data.thoitiet.vn/weather/icons/04d@2x.png" alt="Cà Mau" title="Clouds" />
+                <div class="precipitation" title="Lượng mưa">
+                    <i class="bi bi-droplet"></i>
+                    55 %
+                </div>
+            </div>
+            <p class="mb-0">
+                Mây cụm
+            </p>
+            <div class="card-city-footer">
+                <p title="Hiện tại">30.3°</p>
+                <p>/</p>
+                <p title="Cảm giác như">31.3°</p>
+            </div>
+
+        </a>
+    </div>
+</div>
+
+                            </article>
+                        </div>
+                </div>
+            </div>
+            <!--Quảng cáo-->
+            <div class="col-12 col-md-4 order-0 order-sm-1">
+                <div class="current-location">
+    <div class="location-name">
+        <span class="location-name-icon">
+            <i class="bi bi-geo"></i>
+        </span>
+        <span class="location-name-main">
+            <a href="/ha-noi">
+                Hà Nội
+            </a>
+        </span>
+    </div>
+    <div class="location-data">
+        <div class="location-auto-refresh">
+            <span>Đã cập nhật 18 phút trước</span>
+        </div>
+        <div class="location-data-summary">
+           <div class="overview-current">
+    <img src="https://data.thoitiet.vn/weather/icons/50d@2x.png" alt="Sương mờ" />
+    <span class="current-temperature">25.8°</span>
+    <div class="unit-group">
+        <p>C</p>
+        <p title="Thay đổi đơn vị" class="btn-unit-switcher">
+            <span>F</span>
+        </p>
+    </div>
+</div>
+<div class="overview-caption">
+    <p class="overview-caption-item">Sương mờ</p>
+    <p class="overview-caption-item">Cảm giác như 26.9°.</p>
+</div>
+<div class="weather-feature">
+    <h3>Dự báo những ngày tới</h3>
+    <div class="weather-feature-day justify-content-center">
+        <a href="/ha-noi" class="weather-feature-day-btn">Hôm nay</a>
+        <a href="/ha-noi/ngay-mai" class="weather-feature-day-btn">Ngày mai</a>
+        <a href="/ha-noi/3-ngay-toi" class="weather-feature-day-btn">3 ngày</a>
+        <a href="/ha-noi/5-ngay-toi" class="weather-feature-day-btn">5 ngày</a>
+    </div>
+    <div class="weather-feature-day justify-content-center mt-2">
+        <a href="/ha-noi/7-ngay-toi" class="weather-feature-day-btn">7 ngày</a>
+        <a href="/ha-noi/10-ngay-toi" class="weather-feature-day-btn">10 ngày</a>
+        <a href="/ha-noi/15-ngay-toi" class="weather-feature-day-btn">15 ngày</a>
+        <a href="/ha-noi/30-ngay-toi" class="weather-feature-day-btn">30 ngày</a>
+    </div>
+</div>
+<div class="weather-detail mt-2">
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <span class="weather-icon">
+                    <i class="bi bi-sun"></i>
+                </span>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Mặt trời mọc/lặn</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <div class="weather-sun">
+                <span><i class="bi bi-sunrise"></i>05:55</span>
+                <span>
+                    <i class="bi bi-sunset"></i>
+                    18:08
+                </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <svg class="WeatherDetailsListItem--icon--NgMGn Icon--icon--2AbGu Icon--darkTheme--2U1o8" set="current-conditions" name="temp" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Temperature</title><path d="M10.333 15.48v.321c.971.357 1.667 1.322 1.667 2.456 0 1.438-1.12 2.604-2.5 2.604S7 19.695 7 18.257c0-1.134.696-2.099 1.667-2.456v-.322a2.084 2.084 0 0 1-1.25-1.91V5.583a2.083 2.083 0 1 1 4.166 0v7.986c0 .855-.514 1.589-1.25 1.91zM15.8 8.1a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zm0-1.85a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Thấp/Cao</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">22.5°/33.3°</h3>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <span class="weather-icon">
+                    <i class="bi bi-droplet"></i>
+                </span>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Độ ẩm</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">88%</h3>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <svg class="WeatherDetailsListItem--icon--NgMGn Icon--icon--2AbGu Icon--darkTheme--2U1o8" set="current-conditions" name="pressure" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Pressure</title><path d="M8.462 18.293l-.29-.002c-.6-.004-1.043-.007-1.259-.007-1.119 0-1.182-1.015-.34-1.734l.196-.164.508-.425 1.543-1.292c1.014-.846 1.74-1.45 2.073-1.723.735-.601 1.305-.596 2.033.022.387.329.959.805 2.207 1.841a377.936 377.936 0 0 1 2.18 1.816c.796.67.742 1.66-.295 1.66h-2.382v1.77c0 .83-.393 1.223-1.258 1.223h-2.994c-.809 0-1.258-.42-1.258-1.207v-1.773l-.664-.005zm0-12.807l-.29.002c-.6.004-1.043.006-1.259.006-1.119 0-1.182 1.016-.34 1.734l.196.164.508.426 1.543 1.29a348.68 348.68 0 0 0 2.073 1.724c.735.601 1.305.596 2.033-.022.387-.328.959-.805 2.207-1.84a377.937 377.937 0 0 0 2.18-1.817c.796-.67.742-1.659-.295-1.659h-2.382v-1.77c0-.832-.393-1.224-1.258-1.224h-2.994c-.809 0-1.258.42-1.258 1.207V5.48l-.664.005z"></path></svg>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Áp suất</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">1012 mb</h3>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <svg class="WeatherDetailsListItem--icon--NgMGn Icon--icon--2AbGu Icon--darkTheme--2U1o8" set="current-conditions" name="visibility" theme="dark" data-testid="Icon" aria-hidden="true" role="img" width="1024" height="1024" viewBox="0 0 1024 1024"><title>Visibility</title><path d="M491.856 879.808c-60.48-5.056-110.848-25.184-171.328-55.424-120.96-55.424-216.704-146.112-292.256-256.96-25.248-40.352-30.24-80.64 0-126.016 80.608-115.872 186.464-211.68 317.472-272.096 110.816-50.4 226.752-50.4 337.664 0 136 60.48 241.824 156.224 317.44 282.208 15.104 25.216 25.12 65.504 10.048 85.728-105.792 191.424-256.992 367.84-519.04 342.56zm292.256-377.92c0-151.168-120.96-272.064-272.096-272.064-146.144 0-272.128 126.016-272.128 272.064 0 151.232 120.96 277.216 272.128 277.216 151.104-.032 272.096-125.984 272.096-277.216z"></path><path d="M789.808 500.416c0 156.896-125.472 287.52-282.336 282.336-156.864 0-282.336-130.656-282.336-287.488 0-146.4 130.656-277.12 282.336-277.12 156.896-.032 287.584 125.376 282.336 282.272zM512.752 348.832c-83.68 0-151.584 67.968-151.584 151.584 0 88.864 67.968 156.896 151.584 156.896 83.648 0 156.832-73.216 156.832-156.896-5.184-83.648-73.152-151.584-156.832-151.584z"></path></svg>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Tầm nhìn</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">5 km</h3>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <svg class="WeatherDetailsListItem--icon--NgMGn Icon--icon--2AbGu Icon--darkTheme--2U1o8" set="current-conditions" name="wind" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Wind</title><path d="M6 8.67h5.354c1.457 0 2.234-1.158 2.234-2.222S12.687 4.4 11.354 4.4c-.564 0-1.023.208-1.366.488M3 11.67h15.54c1.457 0 2.235-1.158 2.235-2.222S19.873 7.4 18.54 7.4c-.747 0-1.311.365-1.663.78M6 15.4h9.389c1.457 0 2.234 1.159 2.234 2.223 0 1.064-.901 2.048-2.234 2.048a2.153 2.153 0 0 1-1.63-.742" stroke-width="2" stroke="currentColor" stroke-linecap="round" fill="none"></path></svg>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Gió</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">2.57 km/giờ</h3>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <svg class="WeatherDetailsListItem--icon--NgMGn Icon--icon--2AbGu Icon--darkTheme--2U1o8" set="current-conditions" name="dewpoint" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>Dew Point</title><path d="M17 8.1a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6zm0-1.85a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path fill-rule="evenodd" d="M9.743 18.912a4.182 4.182 0 0 1-2.928-1.182 3.972 3.972 0 0 1-.614-4.962.743.743 0 0 1 .646-.349c.234 0 .476.095.66.275l4.467 4.355c.385.376.39.998-.076 1.275a4.216 4.216 0 0 1-2.155.588M9.855 5c.316 0 .61.14.828.395.171.2.36.416.562.647 1.857 2.126 4.965 5.684 4.965 8.73 0 3.416-2.85 6.195-6.353 6.195-3.505 0-6.357-2.78-6.357-6.195 0-3.082 2.921-6.406 4.854-8.605.242-.275.47-.535.673-.772C9.245 5.14 9.54 5 9.855 5"></path></svg>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Điểm ngưng</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">23.7 °C</h3>
+        </div>
+    </div>
+    <div class="separator-dashed"></div>
+    <div class="d-flex">
+        <div class="avatar">
+            <div class="avatar-img rounded-circle">
+                <svg class="WeatherDetailsListItem--icon--NgMGn Icon--icon--2AbGu Icon--darkTheme--2U1o8" set="current-conditions" name="uv" theme="dark" data-testid="Icon" aria-hidden="true" role="img" viewBox="0 0 24 24"><title>UV Level</title><path d="M7.4 5.598a.784.784 0 0 1 .25-.92c.335-.256.824-.197 1.02.062.066.063.066.063.08.085l2.406 3.152-.626.238a3.983 3.983 0 0 0-1.097.633l-.522.424L7.4 5.598zm4.539 2.358c-.21 0-.418.017-.625.05l-.664.106.09-.666.438-3.266c.013-.072.013-.072.012-.057a.783.783 0 0 1 .666-.616.78.78 0 0 1 .872.639l.006.038.507 3.933-.662-.108a3.957 3.957 0 0 0-.64-.053zm-7.781 3.19l.026-.004 3.934-.507-.108.662a3.98 3.98 0 0 0-.003 1.266l.105.664-.665-.09-3.265-.439a.784.784 0 0 1-.676-.679c-.054-.42.238-.809.63-.869l.022-.004zm11.504-.617a3.98 3.98 0 0 0-.632-1.097l-.425-.522.623-.256 3.056-1.256a.787.787 0 0 1 .916.253c.256.337.199.817-.104 1.063l-.045.037-3.151 2.405-.238-.627zm-1.205-1.672a3.984 3.984 0 0 0-1.095-.637l-.626-.24.41-.532 2.008-2.602c.059-.07.059-.07.046-.052a.78.78 0 0 1 1.306.227c.076.185.079.39.02.54l-.021.06-1.528 3.662-.52-.426zM4.595 7.793c.162-.387.611-.58.971-.441.017.004.017.004.055.02L9.283 8.9l-.425.52a3.985 3.985 0 0 0-.636 1.094l-.24.627-3.144-2.425a.784.784 0 0 1-.243-.924zm14.443 7.367c.054.045.054.045.044.04a.784.784 0 0 1 .199.884c-.163.386-.61.58-.964.443-.024-.006-.024-.006-.062-.022l-3.662-1.529.426-.52a3.98 3.98 0 0 0 .636-1.094l.241-.626 3.142 2.424zm1.332-3.303c.053.422-.239.809-.63.87l-.035.006-3.945.508.108-.662a3.999 3.999 0 0 0 .003-1.266l-.105-.663.665.09 3.272.44c.068.012.068.012.052.01a.784.784 0 0 1 .615.667zm-3.894 6.421c.024.068.024.068.017.053a.786.786 0 0 1-.27.87c-.332.25-.816.194-1.047-.091-.022-.023-.022-.023-.05-.058l-2.406-3.154.626-.237a3.977 3.977 0 0 0 1.097-.632l.523-.425 1.51 3.674zm-8.26-4.932c.151.397.365.767.633 1.097l.424.522-.622.256-3.054 1.255a.787.787 0 0 1-.92-.25.781.781 0 0 1-.154-.58c.027-.199.127-.379.227-.452.045-.046.045-.046.075-.069l3.153-2.406.238.627zm3.723 2.572c.209 0 .417-.016.625-.049l.662-.103-.089.664-.438 3.26-.012.062a.785.785 0 0 1-.666.618c-.048.005-.048.005-.101.006-.386 0-.714-.28-.764-.612-.01-.043-.01-.043-.014-.072l-.507-3.934.662.108c.213.035.427.052.642.052zM7.366 18.27l.006-.015L8.9 14.592l.52.426a3.99 3.99 0 0 0 1.094.636l.626.241-.41.531-2.012 2.609-.04.046a.788.788 0 0 1-.886.2.787.787 0 0 1-.428-1.011z"></path><path d="M11.911 14.322a2.411 2.411 0 1 0 0-4.822 2.411 2.411 0 0 0 0 4.822zm0 2a4.411 4.411 0 1 1 0-8.822 4.411 4.411 0 0 1 0 8.822z"></path></svg>
+            </div>
+        </div>
+        <div class="flex-1 pt-1 ml-2">
+            <h6 class="fw-bold mb-1">Chỉ số UV</h6>
+        </div>
+        <div class="d-flex ml-auto align-items-center">
+            <h3 class="text-white op-8 fw-bold">0.7</h3>
+        </div>
+    </div>    
+</div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section-container section-news">
+    <div class="section-news-bg section-news-bg-night"></div>
+    <div class="container">
+        <h3 class="news--group-title">
+            Tin tức thời tiết
+        </h3>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="top-news">
+                                <div class="img-container">
+                                    <a rel="nofollow" href="/tia-uv-la-gi-obblixquzkp.html" class="news-link">
+                                        <img src="https://data.thoitiet.vn/weather/2022/1/4/tia-uv-la-gi.jpg" class="img-fluid" alt="Tia UV là gì? Cách bảo vệ da dưới tác hại của tia UV"  width="337" height="214"/>
+                                    </a>
+                                </div>
+                                <a rel="nofollow" href="/tin-tong-hop" class="news-category">Tin tổng hợp</a>
+                                <a rel="nofollow" href="/tia-uv-la-gi-obblixquzkp.html" class="news-link">
+                                    <h3 class="title">
+                                        Tia UV là gì? Cách bảo vệ da dưới tác hại của tia UV
+                                    </h3>
+                                </a>
+                                <a rel="nofollow" href="/tia-uv-la-gi-obblixquzkp.html" class="news-link">
+                                    <p class="abs">
+                                        Tia UV có lẽ là kẻ thù lớn nhất đối với làn da của chúng ta. Không những thể còn chứa nhiều tiềm ẩn lớn gây tổn thương mắt và nhiều vấn đề khác. Vậy các bạn đã hiểu tia Uv là gì? Tác hại của tia Uv như thế nào đối với chúng ta hay chưa.
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    <div class="col-12 col-md-4">
+                        <ul class="list-unstyled news-list">
+                                <li class="media">
+                                    <a rel="nofollow" href="/hoang-hon-la-gi-jwahakujaz.html" class="mr-3">
+                                        <img src="https://data.thoitiet.vn/weather/2021/11/30/hoang-hon-la-gi.jpg" class="img-fluid" alt="Hoàng hôn là gì ? 6+ ý nghĩa kỳ diệu của hoàng hôn"  width="150" height="96"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <a rel="nofollow" href="/hoang-hon-la-gi-jwahakujaz.html" class="news-link">
+                                            <h3 class="title">
+                                                Hoàng hôn là gì ? 6+ ý nghĩa kỳ diệu của hoàng hôn
+                                            </h3>
+                                        </a>
+                                        <a rel="nofollow" href="/tin-tong-hop" class="news-category">Tin tổng hợp</a>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <a rel="nofollow" href="/tin-thoi-tiet-ba-mien-nhung-ngay-cuoi-thang-7-gabzflguzxv.html" class="mr-3">
+                                        <img src="https://data.thoitiet.vn/weather/2022/7/29/mua-dong.jpg" class="img-fluid" alt="Tin thời tiết ba miền những ngày cuối tháng 7, miền Bắc bước vào đợt mưa giông dài ngày từ tối nay"  width="150" height="96"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <a rel="nofollow" href="/tin-thoi-tiet-ba-mien-nhung-ngay-cuoi-thang-7-gabzflguzxv.html" class="news-link">
+                                            <h3 class="title">
+                                                Tin thời tiết ba miền những ngày cuối tháng 7, miền Bắc bước vào đợt mưa giông dài ngày từ tối nay
+                                            </h3>
+                                        </a>
+                                        <a rel="nofollow" href="/tin-tong-hop" class="news-category">Tin tổng hợp</a>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <a rel="nofollow" href="/mot-vung-ap-thap-hinh-thanh-giua-bien-dong-co-kha-nang-manh-len-thanh-ap-thap-nhiet-doi-aqzasgdujwm.html" class="mr-3">
+                                        <img src="https://data.thoitiet.vn/weather/2022/7/10/vung-thap.jpg" class="img-fluid" alt="Một vùng áp thấp hình thành giữa biển Đông, có khả năng mạnh lên thành áp thấp nhiệt đới!"  width="150" height="96"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <a rel="nofollow" href="/mot-vung-ap-thap-hinh-thanh-giua-bien-dong-co-kha-nang-manh-len-thanh-ap-thap-nhiet-doi-aqzasgdujwm.html" class="news-link">
+                                            <h3 class="title">
+                                                Một vùng áp thấp hình thành giữa biển Đông, có khả năng mạnh lên thành áp thấp nhiệt đới!
+                                            </h3>
+                                        </a>
+                                        <a rel="nofollow" href="/tin-tong-hop" class="news-category">Tin tổng hợp</a>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <a rel="nofollow" href="/hom-nay-mua-dong-dien-ra-o-nhieu-khu-vuc-tren-ca-nuoc-ygzqcapulmz.html" class="mr-3">
+                                        <img src="https://data.thoitiet.vn/weather/2022/7/8/mua-dong.jpg" class="img-fluid" alt="Hôm nay mưa dông diễn ra ở nhiều khu vực trên cả nước"  width="150" height="96"/>
+                                    </a>
+                                    <div class="media-body">
+                                        <a rel="nofollow" href="/hom-nay-mua-dong-dien-ra-o-nhieu-khu-vuc-tren-ca-nuoc-ygzqcapulmz.html" class="news-link">
+                                            <h3 class="title">
+                                                Hôm nay mưa dông diễn ra ở nhiều khu vực trên cả nước
+                                            </h3>
+                                        </a>
+                                        <a rel="nofollow" href="/tin-tong-hop" class="news-category">Tin tổng hợp</a>
+                                    </div>
+                                </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-4">                        
+                        <div class="google-ads-container">
+                            <!-- tintuc-doc -->
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-5437093769370767"
+                                 data-ad-slot="4957860471"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section class="dia-diem-chi-tiet">
+        <div class="container">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="cover-content cover-content-bottom">
+                        <div class="toc-container"><div class="toc-title-container"><p class="toc-title">Nội dung chính</p><span class="title-toggle"><span class="btn btn-sm btn-outline-secondary btn-toggle-toc show"><i class="bi bi-list-nested"></i></span></span></div><nav class="toc-links"><ul class="ez-toc-list ez-toc-list-level-1"><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-1" href="#cung-cap-ban-tin-thoi-tiet-hang-ngay" title="Cung cấp bản tin thời tiết hằng ngày">Cung cấp bản tin thời tiết hằng ngày</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-1" href="#du-bao-thoi-tiet-cap-nhat-theo-gio" title="Dự báo thời tiết cập nhật theo giờ">Dự báo thời tiết cập nhật theo giờ</a></li></ul></nav></div>
+                        <div class="html-content">
+                            <p style="text-align: left;">Bạn đang tìm kiếm một công cụ tra cứu thông tin thời tiết hằng ngày tại nơi bạn đang sinh sống?  Để xem tin tức cập nhật về thời tiết hôm nay, ngày mai, cũng như khả năng có mưa, nắng nóng, bão, lũ, lốc xoáy... thì đã có trang web thoitiet.vn.<br /><br /><img style="display: block; margin-left: auto; margin-right: auto;" src="https://data.thoitiet.vn/weather/2021/8/7/du-bao-thoi-tiet-hang-ngay-thoitietvn.jpg" alt="Dự báo thời tiết" width="678" height="470" /></p>
+<h2 id="cung-cap-ban-tin-thoi-tiet-hang-ngay"><strong>Cung cấp bản tin thời tiết hằng ngày</strong></h2>
+<p>Thoitiet.vn là trang web chuyên cung cấp các <strong>bản tin dự báo thời tiết hằng ngày</strong> cho các tỉnh thành, quận huyện và xã phường chính xác và nhanh chóng. Dự báo sớm các dạng thời tiết cực đoan như áp thấp nhiệt đới, hướng đi của bão, tình hình lũ trên các sông,… Giúp người dân dễ dàng nắm bắt và chuẩn bị các kế hoạch ứng phó kịp thời.</p>
+<p>Giao diện thân thiện, trực quan, dễ sử dụng ngay cả với những người mới làm quen với internet.</p>
+<h2><strong>Dự báo thời tiết cập nhật theo giờ<br /></strong></h2>
+<p style="text-align: left;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://data.thoitiet.vn/weather/2021/8/7/du-bao-thoi-tiet-thoitietvn1.jpg" alt="thời tiết" width="800" height="555" /><br /><br />Thoitiet.vn còn có thể đưa ra dự báo thời tiết theo từng khung giờ, cho phép bạn nắm bắt được chính xác tình hình thời tiết theo thời gian thực. Bên cạnh đó, còn có dự báo thời tiết ngày mai, dự báo thời tiết 3 ngày hay thời tiết trong 5 ngày tới,… Cho phép bạn chuẩn bị một kế hoạch đi chơi hay công tác ngắn ngày một cách suôn sẻ và thuận lợi.</p>
+<p>Thoitiet.vn cũng có thêm một trang fanpage trên facebook. Cung cấp các bản tin thời tiết tiếp cận tới người xem nhanh nhất.</p>
+<p>Hi vọng thoitiet.vn sẽ là người bạn đáng tin cậy của mọi người trong mỗi chuyến công tác hay dự định của mình.</p>
+                        </div>
+                    </div>
+                    <span id="showMoreContent" class="btn btn-link" style="cursor:pointer">Mở rộng</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div class="footer-items footer-items-left">
+                        <span>© 2021 Kênh thông tin dự báo <a href="/">Thời tiết</a></span>
+                        <a href="mailTo:info@thoitiet.vn" rel="nofollow">
+                            <i class="bi bi-envelope"></i>
+                            info@thoitiet.vn
+                        </a>
+                        <div class="social-footer-items">
+                            <a class="social-footer social-facebook" href="https://www.facebook.com/kenhdubaothoitiet" rel="nofollow" target="_blank">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a class="social-footer social-twitter" href="https://x.com/vnthoitiet" rel="nofollow" target="_blank">
+                                <i class="bi bi-twitter"></i>
+                            </a>                            
+                            <a class="social-footer social-pinterest" href="https://www.pinterest.com/vnthoitiet/" rel="nofollow" target="_blank">
+                                <img src="/img/pinterest.png" alt="pinterest" />
+                            </a>
+                            <a class="social-footer social-youtube" href="https://www.youtube.com/@thoitietdotvn" rel="nofollow" target="_blank">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 text-left text-sm-right">
+                    <ul class="list-inline footer-items">
+                        <li class="list-inline-item">
+                            <a href="/widget" rel="nofollow">Widget</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="/gioi-thieu" rel="nofollow">Giới thiệu</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="/tac-gia" rel="nofollow">Tác giả</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="/dieu-khoan-dich-vu" rel="nofollow">Điều khoản dịch vụ</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="/chinh-sach-bao-mat" rel="nofollow">Chính sách bảo mật</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap-autocomplete.min.js"></script>
+
+    <div class="modal fade" tabindex="-1" id="requestLocalModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Website cần biết địa điểm của bạn để gợi ý thông tin dự báo thời tiết được chính xác.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Từ chối</button>
+                    <button type="button" class="btn btn-primary" onclick="getLocation()">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/site.js?v=-x9aILkIPryywVnKibGxdP2AziyXdL53OxrXysZHi_w"></script>
+    <script src="/js/geo.js?v=cvH2dB9EJjIquKHZG_1_XAheDeVwvIrjPbeW2Hj5Ywc"></script>
+     
+<style>
+    .cover-content{
+        max-height:170px;
+    }
+</style>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics VuongTest -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KVHV391KVM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-KVHV391KVM');
+    </script>
+</body>
+</html>
+

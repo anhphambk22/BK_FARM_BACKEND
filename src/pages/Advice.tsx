@@ -1,6 +1,42 @@
-import { useState } from 'react';
-import { Send, Sparkles, Volume2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Mic, MicOff, Send, Sparkles, Volume2 } from 'lucide-react';
 import { chat } from '../services/api';
+
+interface VoiceRecognitionResult {
+  transcript: string;
+}
+
+interface VoiceRecognitionResultListItem {
+  0: VoiceRecognitionResult;
+}
+
+interface VoiceRecognitionEvent extends Event {
+  results: ArrayLike<VoiceRecognitionResultListItem>;
+}
+
+interface VoiceRecognitionErrorEvent extends Event {
+  error: string;
+}
+
+interface VoiceRecognition extends EventTarget {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onresult: ((event: VoiceRecognitionEvent) => void) | null;
+  onerror: ((event: VoiceRecognitionErrorEvent) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
+type VoiceRecognitionConstructor = new () => VoiceRecognition;
+
+declare global {
+  interface Window {
+    SpeechRecognition?: VoiceRecognitionConstructor;
+    webkitSpeechRecognition?: VoiceRecognitionConstructor;
+  }
+}
 
 // Cấu trúc tin nhắn
 interface Message {
@@ -19,6 +55,7 @@ const speakText = (text: string) => {
 };
 
 export default function Advice() {
+  const recognitionRef = useRef<VoiceRecognition | null>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -28,6 +65,10 @@ export default function Advice() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [speechError, setSpeechError] = useState('');
+  const supportsSpeechRecognition =
+    typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
   const quickSuggestions = [
     '🌧️ Khi nào nên tưới nước?',
@@ -56,6 +97,68 @@ export default function Advice() {
       setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${msg}` }]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!supportsSpeechRecognition) return;
+
+    const RecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!RecognitionCtor) return;
+
+    const recognition = new RecognitionCtor();
+    recognition.lang = 'vi-VN';
+    recognition.continuous = false;
+    recognition.interimResults = true;
+
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map((result) => result[0]?.transcript ?? '')
+        .join(' ')
+        .trim();
+
+      if (transcript) {
+        setInput(transcript);
+      }
+      setSpeechError('');
+    };
+
+    recognition.onerror = () => {
+      setSpeechError('Không thể nhận diện giọng nói. Vui lòng thử lại.');
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
+    return () => {
+      recognition.stop();
+      recognitionRef.current = null;
+    };
+  }, [supportsSpeechRecognition]);
+
+  const handleVoiceInput = () => {
+    if (!recognitionRef.current) {
+      setSpeechError('Trình duyệt của bạn chưa hỗ trợ nhập giọng nói.');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
+    setSpeechError('');
+    try {
+      recognitionRef.current.start();
+      setIsListening(true);
+    } catch {
+      setSpeechError('Micro đang bận hoặc chưa được cấp quyền.');
+      setIsListening(false);
     }
   };
 
@@ -148,6 +251,20 @@ export default function Advice() {
                        focus:border-emerald-500 focus:outline-none
                        text-slate-800 placeholder-slate-400 disabled:opacity-60"
           />
+          {supportsSpeechRecognition && (
+            <button
+              onClick={handleVoiceInput}
+              disabled={isLoading}
+              className={`px-4 py-4 rounded-full border-2 transition-all duration-300 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed ${
+                isListening
+                  ? 'bg-rose-500 border-rose-500 text-white hover:bg-rose-600'
+                  : 'border-emerald-200 text-emerald-700 hover:bg-emerald-50'
+              }`}
+              title={isListening ? 'Dừng ghi âm' : 'Nhập bằng giọng nói'}
+            >
+              {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+            </button>
+          )}
           <button
             onClick={() => handleSend(input)}
             disabled={isLoading}
@@ -159,6 +276,10 @@ export default function Advice() {
             <Send className="w-5 h-5" />
           </button>
         </div>
+        {isListening && !speechError && (
+          <div className="text-center text-sm text-emerald-600 mt-2">Đang nghe, hãy nói ngay bây giờ...</div>
+        )}
+        {speechError && <div className="text-center text-sm text-rose-600 mt-2">{speechError}</div>}
         {isLoading && (
           <div className="text-center text-sm text-slate-500 mt-2">Đang trả lời…</div>
         )}

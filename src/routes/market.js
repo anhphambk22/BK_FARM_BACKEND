@@ -182,7 +182,7 @@ function normalizeKeyword(value) {
 
 function extractCoffeeFertilizers(html, limit = 8) {
   const regex = /<h3[^>]*class="product-name"[^>]*>\s*<a[^>]*href="([^"]+)"[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/a>\s*<\/h3>[\s\S]*?<span[^>]*class="price"[^>]*>([\s\S]*?)<\/span>/gi;
-  const products = [];
+  const candidates = [];
   const seen = new Set();
 
   const coffeeKeywords = [
@@ -216,17 +216,25 @@ function extractCoffeeFertilizers(html, limit = 8) {
     if (!href || !name || seen.has(href)) continue;
     seen.add(href);
 
-    products.push({
+    candidates.push({
       name,
       price: price || 'Liên hệ báo giá',
       url: href,
       source: 'Nông Nghiệp Phố',
+      normalizedName,
     });
 
-    if (products.length >= limit) break;
+    if (candidates.length >= 20) break;
   }
 
-  return products;
+  const npkCandidates = candidates.filter((item) => item.normalizedName.includes('npk'));
+  const otherCandidates = candidates.filter((item) => !item.normalizedName.includes('npk'));
+
+  const prioritized = [...npkCandidates, ...otherCandidates]
+    .slice(0, limit)
+    .map(({ normalizedName, ...item }) => item);
+
+  return prioritized;
 }
 
 function extractTrangVangExporters(html, limit = 12) {
@@ -479,7 +487,7 @@ router.get('/fertilizers/coffee', async (req, res) => {
     }
 
     const html = await response.text();
-    const fertilizers = extractCoffeeFertilizers(html, 8);
+    const fertilizers = extractCoffeeFertilizers(html, 3);
 
     if (!fertilizers.length) {
       return res.status(502).json({ message: 'Không phân tích được danh sách phân bón phù hợp cho cà phê từ nguồn.' });
