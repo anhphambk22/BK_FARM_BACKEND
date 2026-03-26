@@ -4,6 +4,91 @@ import fetch from 'node-fetch';
 const router = express.Router();
 
 const SOURCE_URL = 'https://giacaphe.com/';
+const WEATHER_SOURCE_URL = 'https://thoitiet.vn';
+const WEATHER_CACHE_TTL_MS = 2 * 60 * 1000;
+
+const WEST_HIGHLANDS_PROVINCES = [
+  { slug: 'lam-dong', name: 'Lâm Đồng' },
+  { slug: 'dak-lak', name: 'Đắk Lắk' },
+  { slug: 'gia-lai', name: 'Gia Lai' },
+];
+
+let weatherCache = {
+  updatedAt: 0,
+  payload: null,
+};
+
+function cleanText(value) {
+  return value
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractFirst(html, regex, fallback = '') {
+  const match = html.match(regex);
+  if (!match) return fallback;
+  return cleanText(match[1] || fallback);
+}
+
+function extractMetricByLabel(html, label) {
+  const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(
+    `<span[^>]*>${escapedLabel}<\\/span>[\\s\\S]*?<span[^>]*class=\"text-white op-8 fw-bold\"[^>]*>([\\s\\S]*?)<\\/span>`,
+    'i'
+  );
+  return extractFirst(html, regex);
+}
+
+async function fetchProvinceWeather(province) {
+  const url = `${WEATHER_SOURCE_URL}/${province.slug}`;
+  const response = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 BKFarmBackend/1.0',
+    },
+    timeout: 15000,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Không thể lấy thời tiết ${province.name} (HTTP ${response.status})`);
+  }
+
+  const html = await response.text();
+
+  const currentTemp = extractFirst(
+    html,
+    /<span[^>]*class=\"current-temperature\"[^>]*>([\s\S]*?)<\/span>/i
+  );
+  const condition = extractFirst(
+    html,
+    /<p[^>]*class=\"overview-caption-item overview-caption-item-detail\"[^>]*>([\s\S]*?)<\/p>/i
+  );
+  const feelsLike = extractFirst(
+    html,
+    /<p[^>]*class=\"overview-caption-item overview-caption-summary-detail\"[^>]*>([\s\S]*?)<\/p>/i
+  );
+
+  const lowHigh = extractMetricByLabel(html, 'Thấp/Cao');
+  const humidity = extractMetricByLabel(html, 'Độ ẩm');
+  const wind = extractMetricByLabel(html, 'Gió');
+
+  if (!currentTemp || !condition) {
+    throw new Error(`Không phân tích được dữ liệu thời tiết cho ${province.name}`);
+  }
+
+  return {
+    province: province.name,
+    slug: province.slug,
+    url,
+    currentTemp,
+    condition,
+    feelsLike,
+    lowHigh,
+    humidity,
+    wind,
+  };
+}
 
 function extractCssContentMap(html) {
   const map = new Map();
@@ -97,6 +182,37 @@ router.get('/coffee-prices', async (req, res) => {
   } catch (err) {
     console.error('Market price fetch error:', err);
     return res.status(500).json({ message: 'Lỗi server khi cập nhật giá cà phê.' });
+  }
+});
+
+router.get('/weather/west-highlands', async (req, res) => {
+  try {
+    const now = Date.now();
+    if (weatherCache.payload && now - weatherCache.updatedAt < WEATHER_CACHE_TTL_MS) {
+      return res.json({
+        ...weatherCache.payload,
+        cached: true,
+      });
+    }
+
+    const provinces = await Promise.all(WEST_HIGHLANDS_PROVINCES.map((province) => fetchProvinceWeather(province)));
+
+    const payload = {
+      source: WEATHER_SOURCE_URL,
+      fetchedAt: new Date().toISOString(),
+      provinces,
+      cached: false,
+    };
+
+    weatherCache = {
+      updatedAt: now,
+      payload,
+    };
+
+    return res.json(payload);
+  } catch (err) {
+    console.error('West Highlands weather fetch error:', err);
+    return res.status(500).json({ message: 'Không lấy được dữ liệu thời tiết Tây Nguyên.' });
   }
 });
 
