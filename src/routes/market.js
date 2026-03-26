@@ -6,6 +6,9 @@ const router = express.Router();
 const SOURCE_URL = 'https://giacaphe.com/';
 const WEATHER_SOURCE_URL = 'https://thoitiet.vn';
 const WEATHER_CACHE_TTL_MS = 15 * 1000;
+const EXPORTER_SOURCE_URL =
+  'https://trangvangvietnam.com/tagprovince/50062680/nh%C3%A0-xu%E1%BA%A5t-kh%E1%BA%A9u-c%C3%A0-ph%C3%AA-%E1%BB%9F-t%E1%BA%A1i-tp.-h%E1%BB%93-ch%C3%AD-minh-(tphcm).html';
+const EXPORTER_CACHE_TTL_MS = 60 * 60 * 1000;
 
 const WEST_HIGHLANDS_PROVINCES = [
   { slug: 'lam-dong', name: 'Lâm Đồng' },
@@ -14,6 +17,11 @@ const WEST_HIGHLANDS_PROVINCES = [
 ];
 
 let weatherCache = {
+  updatedAt: 0,
+  payload: null,
+};
+
+let exporterCache = {
   updatedAt: 0,
   payload: null,
 };
@@ -141,6 +149,63 @@ function normalizeVietnameseText(value) {
     .trim();
 }
 
+function decodeHtmlEntities(value) {
+  return value
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
+function extractTrangVangExporters(html, limit = 12) {
+  const blocks = [];
+  const listingRegex =
+    /<h2[^>]*>\s*<a[^>]*href="([^"]*\/listings\/[^"]+)"[^>]*>([\s\S]*?)<\/a>\s*<\/h2>([\s\S]*?)(?=<h2[^>]*>\s*<a[^>]*href="[^"]*\/listings\/|$)/gi;
+
+  let match;
+  while ((match = listingRegex.exec(html)) !== null) {
+    const detailUrlRaw = match[1] || '';
+    const nameRaw = match[2] || '';
+    const blockRaw = match[3] || '';
+
+    const detailUrl = detailUrlRaw.startsWith('http')
+      ? detailUrlRaw
+      : `https://trangvangvietnam.com${detailUrlRaw}`;
+    const name = cleanText(decodeHtmlEntities(nameRaw));
+
+    const phoneMatch = blockRaw.match(/href="tel:([^"]+)"/i);
+    const phone = phoneMatch ? cleanText(phoneMatch[1]).replace(/\./g, '') : '';
+
+    const blockText = cleanText(decodeHtmlEntities(blockRaw));
+    let address = '';
+
+    const addressMatch1 = blockText.match(/Ở TẠI TP\. HỒ CHÍ MINH\s*(.*?)\s*Việt Nam/i);
+    if (addressMatch1) {
+      address = cleanText(addressMatch1[1]);
+    }
+
+    if (!address) {
+      const addressMatch2 = blockText.match(/TP\. Hồ Chí Minh\s*,?\s*Việt Nam\s*(.*?)\s*(?:Hotline|BY YELLOW PAGES|$)/i);
+      if (addressMatch2) {
+        address = cleanText(addressMatch2[1]);
+      }
+    }
+
+    blocks.push({
+      name,
+      detailUrl,
+      phone,
+      address: address || 'TP. Hồ Chí Minh',
+    });
+
+    if (blocks.length >= limit) break;
+  }
+
+  return blocks;
+}
+
 function pickProvinceRows(domesticRows) {
   const targets = [
     { key: 'dak_lak', label: 'Đắk Lắk', aliases: ['dak lak'] },
@@ -250,6 +315,53 @@ router.get('/weather/west-highlands', async (req, res) => {
   } catch (err) {
     console.error('West Highlands weather fetch error:', err);
     return res.status(500).json({ message: 'Không lấy được dữ liệu thời tiết Tây Nguyên.' });
+  }
+});
+
+router.get('/exporters/hcm', async (req, res) => {
+  try {
+    const now = Date.now();
+    if (exporterCache.payload && now - exporterCache.updatedAt < EXPORTER_CACHE_TTL_MS) {
+      return res.json({
+        ...exporterCache.payload,
+        cached: true,
+      });
+    }
+
+    const response = await fetch(EXPORTER_SOURCE_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 BKFarmBackend/1.0',
+      },
+      timeout: 15000,
+    });
+
+    if (!response.ok) {
+      return res.status(502).json({ message: `Không lấy được danh sách nhà xuất khẩu (HTTP ${response.status}).` });
+    }
+
+    const html = await response.text();
+    const exporters = extractTrangVangExporters(html, 12);
+
+    if (!exporters.length) {
+      return res.status(502).json({ message: 'Không phân tích được danh sách nhà xuất khẩu từ Trang Vàng.' });
+    }
+
+    const payload = {
+      source: EXPORTER_SOURCE_URL,
+      fetchedAt: new Date().toISOString(),
+      exporters,
+      cached: false,
+    };
+
+    exporterCache = {
+      updatedAt: now,
+      payload,
+    };
+
+    return res.json(payload);
+  } catch (err) {
+    console.error('TrangVang exporters fetch error:', err);
+    return res.status(500).json({ message: 'Không lấy được dữ liệu nhà xuất khẩu từ Trang Vàng.' });
   }
 });
 
