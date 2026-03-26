@@ -8,7 +8,7 @@ const WEATHER_SOURCE_URL = 'https://thoitiet.vn';
 const WEATHER_CACHE_TTL_MS = 15 * 1000;
 const EXPORTER_SOURCE_URL =
   'https://trangvangvietnam.com/tagprovince/50062680/nh%C3%A0-xu%E1%BA%A5t-kh%E1%BA%A9u-c%C3%A0-ph%C3%AA-%E1%BB%9F-t%E1%BA%A1i-tp.-h%E1%BB%93-ch%C3%AD-minh-(tphcm).html';
-const EXPORTER_CACHE_TTL_MS = 60 * 60 * 1000;
+const EXPORTER_CACHE_TTL_MS = 15 * 1000;
 
 const WEST_HIGHLANDS_PROVINCES = [
   { slug: 'lam-dong', name: 'Lâm Đồng' },
@@ -22,6 +22,11 @@ let weatherCache = {
 };
 
 let exporterCache = {
+  updatedAt: 0,
+  payload: null,
+};
+
+let coffeeCache = {
   updatedAt: 0,
   payload: null,
 };
@@ -135,7 +140,7 @@ function extractDomesticRows(html, cssMap) {
         change: cssMap.get(changeClass) || '',
       };
     })
-    .filter((row) => row.price && row.change && !/USD|London|New York|Tỷ giá/i.test(row.label));
+    .filter((row) => row.price && !/USD|London|New York|Tỷ giá/i.test(row.label));
 
   return domestic;
 }
@@ -250,13 +255,20 @@ router.get('/coffee-prices', async (req, res) => {
     const { londonPrice, londonChange, nyPrice, nyChange } = extractGlobalRows(html);
     const domesticRows = extractDomesticRows(html, cssMap);
     const provinceRows = pickProvinceRows(domesticRows);
-    const dakLak = provinceRows.find((row) => row.key === 'dak_lak');
+    const dakLak = provinceRows.find((row) => row.key === 'dak_lak') || provinceRows[0] || domesticRows[0] || null;
 
-    if (!londonPrice || !nyPrice || !dakLak?.price) {
+    if (!dakLak?.price) {
+      if (coffeeCache.payload) {
+        return res.json({
+          ...coffeeCache.payload,
+          cached: true,
+          warning: 'Nguồn dữ liệu thay đổi tạm thời, đang dùng bản gần nhất.',
+        });
+      }
       return res.status(502).json({ message: 'Không phân tích được dữ liệu giá cà phê từ nguồn.' });
     }
 
-    return res.json({
+    const payload = {
       source: SOURCE_URL,
       updatedAt: new Date().toISOString(),
       domesticPrices: provinceRows,
@@ -265,24 +277,39 @@ router.get('/coffee-prices', async (req, res) => {
           market: 'Việt Nam (Robusta)',
           price: dakLak.price,
           unit: 'VNĐ/kg',
-          trend: dakLak.change,
+          trend: dakLak.change || '--',
         },
         {
           market: 'London (Robusta)',
-          price: londonPrice,
+          price: londonPrice || '',
           unit: 'USD/tấn',
-          trend: londonChange,
+          trend: londonChange || '--',
         },
         {
           market: 'New York (Arabica)',
-          price: nyPrice,
+          price: nyPrice || '',
           unit: 'US cent/lb',
-          trend: nyChange,
+          trend: nyChange || '--',
         },
       ],
-    });
+      cached: false,
+    };
+
+    coffeeCache = {
+      updatedAt: Date.now(),
+      payload,
+    };
+
+    return res.json(payload);
   } catch (err) {
     console.error('Market price fetch error:', err);
+    if (coffeeCache.payload) {
+      return res.json({
+        ...coffeeCache.payload,
+        cached: true,
+        warning: 'Kết nối nguồn tạm thời gián đoạn, đang dùng dữ liệu gần nhất.',
+      });
+    }
     return res.status(500).json({ message: 'Lỗi server khi cập nhật giá cà phê.' });
   }
 });
