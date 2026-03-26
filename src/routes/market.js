@@ -5,7 +5,7 @@ const router = express.Router();
 
 const SOURCE_URL = 'https://giacaphe.com/';
 const WEATHER_SOURCE_URL = 'https://thoitiet.vn';
-const WEATHER_CACHE_TTL_MS = 2 * 60 * 1000;
+const WEATHER_CACHE_TTL_MS = 15 * 1000;
 
 const WEST_HIGHLANDS_PROVINCES = [
   { slug: 'lam-dong', name: 'Lâm Đồng' },
@@ -132,6 +132,41 @@ function extractDomesticRows(html, cssMap) {
   return domestic;
 }
 
+function normalizeVietnameseText(value) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function pickProvinceRows(domesticRows) {
+  const targets = [
+    { key: 'dak_lak', label: 'Đắk Lắk', aliases: ['dak lak'] },
+    { key: 'gia_lai', label: 'Gia Lai', aliases: ['gia lai'] },
+    { key: 'lam_dong', label: 'Lâm Đồng', aliases: ['lam dong'] },
+  ];
+
+  return targets
+    .map((target) => {
+      const found = domesticRows.find((row) => {
+        const normalizedLabel = normalizeVietnameseText(row.label || '');
+        return target.aliases.some((alias) => normalizedLabel.includes(alias));
+      });
+
+      if (!found) return null;
+      return {
+        key: target.key,
+        province: target.label,
+        price: found.price,
+        trend: found.change,
+        unit: 'VNĐ/kg',
+      };
+    })
+    .filter(Boolean);
+}
+
 router.get('/coffee-prices', async (req, res) => {
   try {
     const response = await fetch(SOURCE_URL, {
@@ -149,7 +184,8 @@ router.get('/coffee-prices', async (req, res) => {
     const cssMap = extractCssContentMap(html);
     const { londonPrice, londonChange, nyPrice, nyChange } = extractGlobalRows(html);
     const domesticRows = extractDomesticRows(html, cssMap);
-    const dakLak = domesticRows[0];
+    const provinceRows = pickProvinceRows(domesticRows);
+    const dakLak = provinceRows.find((row) => row.key === 'dak_lak');
 
     if (!londonPrice || !nyPrice || !dakLak?.price) {
       return res.status(502).json({ message: 'Không phân tích được dữ liệu giá cà phê từ nguồn.' });
@@ -158,6 +194,7 @@ router.get('/coffee-prices', async (req, res) => {
     return res.json({
       source: SOURCE_URL,
       updatedAt: new Date().toISOString(),
+      domesticPrices: provinceRows,
       prices: [
         {
           market: 'Việt Nam (Robusta)',
